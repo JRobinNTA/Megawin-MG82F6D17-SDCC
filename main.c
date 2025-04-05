@@ -12,7 +12,7 @@ extern void System_Init(void);
 // But it works so not touching it
 
 void setup_pwm(void);
-void set_duty(unsigned int);
+void set_duty(unsigned int duty);
 // Calculate and set the reload value for desired frequency 
 
 #define RELOAD_VALUE (256 - ((MCU_SYSCLK / PCA_CLOCK_DIV) / PWM_FREQUENCY))
@@ -60,7 +60,7 @@ void set_duty(unsigned int duty){
     unsigned int duty_threshold = RELOAD_VALUE + (unsigned int)(T * (1 - (duty/100))); 
     // For duty = 0.5, duty_threshold becomes 196
     if(!CR) CCAP0L = duty_threshold; // Check if its initial case if yes directly set the control reg
-    CCAP0H = duty_threshold;
+    CCAP0H = duty_threshold; // If not initial update reload register
 }
 
 // Used to set the gpio pins used for input and output

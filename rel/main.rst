@@ -829,7 +829,7 @@
       0000BC 20 DE 02         [24]  829 	jb	_CR,00102$
       0000BF 8E EA            [24]  830 	mov	_CCAP0L,r6
       0000C1                        831 00102$:
-                                    832 ;	main.c:63: CCAP0H = duty_threshold;
+                                    832 ;	main.c:63: CCAP0H = duty_threshold; // If not initial update reload register
       0000C1 8E FA            [24]  833 	mov	_CCAP0H,r6
                                     834 ;	main.c:64: }
       0000C3 22               [24]  835 	ret

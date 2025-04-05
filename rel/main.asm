@@ -829,7 +829,7 @@ _set_duty:
 	jb	_CR,00102$
 	mov	_CCAP0L,r6
 00102$:
-;	main.c:63: CCAP0H = duty_threshold;
+;	main.c:63: CCAP0H = duty_threshold; // If not initial update reload register
 	mov	_CCAP0H,r6
 ;	main.c:64: }
 	ret
