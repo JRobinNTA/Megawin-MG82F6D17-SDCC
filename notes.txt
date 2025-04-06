@@ -1,0 +1,16 @@
+How does the PCA0 PWM0 output works ??
+
+In AUXR5 there is a C0PS0 bit to set the PCA0 output ie -
+to change PCA0 out from CEX0 which is channeled by default throught the P2.2 Pin
+Then there are the PWM0A and PWM0B pins which are P1.6 and P1.7 respectively These are for advanced PWM control ig
+But of course there is another register to set the channel of these pins and another register to turn these on or off
+So igonring the "SUB CHANNELS" and focusing on the "MAIN CHANNELS" the P2.2 or the CEX0 pin has to be the PCA0 PWM0 output
+The register to turn PWM0 on or off is the PAOE bit 0 or the POE0 bit You wont find the reference to this register in the code 
+as the default is enabled
+
+Looked for a widely used MCU to confirm seems like this is the right port
+
+# P2.2 HAS TO BE THE PWM OUTPUT
+# P1.5 IS THE LED OUTPUT
+# P1.7 IS THE ON OFF SWITCH
+# P2.4 IS THE FEEDBACK IN

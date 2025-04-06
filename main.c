@@ -11,22 +11,37 @@ extern void System_Init(void);
 // I dont think its necessary to explicitly state the Unsigned Long after 50000
 // But it works so not touching it
 
+// Defining the pins used and their purpose
+#define LED_PIN P15
+#define SWITCH_PIN P17
+#define FEEDBACK_PIN P24
+
 void setup_pwm(void);
 void set_duty(unsigned int duty);
-// Calculate and set the reload value for desired frequency 
+void gpio_init(void);
 
+// Calculate and set the reload value for desired frequency 
 #define RELOAD_VALUE (256 - ((MCU_SYSCLK / PCA_CLOCK_DIV) / PWM_FREQUENCY))
 // For 12MHz, PCA_CLOCK_DIV=2, PWM_FREQUENCY=50000 => RELOAD_VALUE = 136
 
 void main(void) {
     System_Init();
+    gpio_init();
     setup_pwm(); // Initialize PCA for PWM generation
     // Here the duty cycle is varied by loading the CCAP0L and CCAP0H so the control algorithm can be added in to control this
     while (1) {
         // Main loop: Adjust duty cycle here if needed
-        // Example: Change duty cycle to 50%
-        CCAP0L = 0x80; // Set low byte of duty cycle (50% of 256)
-        CCAP0H = 0x80; // Set high byte of duty cycle (50% of 256)
+        unsigned int current_duty = 50; // set initial duty as 50%
+        while(!SWITCH_PIN){
+            LED_PIN = 0x0;
+        }
+        LED_PIN = 0x1; // Turn on LED have to seperate the init code from the loop
+        // If FEEDBACK_PIN is high decrease the duty cycle by 1
+        if(FEEDBACK_PIN) current_duty--;
+        // If FEEDBACK_PIN is low increase the duty cycle by 1 
+        else if(~FEEDBACK_PIN) current_duty++;
+
+        set_duty(current_duty); 
     }
 }
 
@@ -38,7 +53,7 @@ void setup_pwm(void) {
     // We could set PCAPWMn as 0xC0 here to increase the count range but not required here for 50KHz
     PCAPWM0 = 0x00; // Set to CL only mode for assurance and cleared the reserved as per datasheet
     CL = 0x00;   // Clear PCA low byte counter
-    CH = 0x00;   // Clear PCA high byte counter 
+    CH = 0x00;   // Clear PCA high byte counter
 
     CL = RELOAD_VALUE & 0xFF;     // Set low byte of value
     CH = (RELOAD_VALUE >> 8) & 0xFF; // Set high byte of  value
@@ -64,6 +79,18 @@ void set_duty(unsigned int duty){
 }
 
 // Used to set the gpio pins used for input and output
-void gpio_init(void){
+void gpio_init(void){   
+    // Setting the PWM_OUTPUT as push pull output
+    P2M0 |= (1<<2);
+    P2M1 &= ~(1<<2); 
 
+    // Setting the LED_PIN as output
+    P1M0 |= (1<<5);
+    P1M1 &= ~(1<<5);
+    
+    // Setting the SWITCH_PIN as input the reset val of P1M0 is 0 so not toucing it
+    P1M1 &= ~(1<<7); 
+
+    // Setting the FEEDBACK_PIN as digital input the reset val of P2M0 is same here
+    P2M1 &= ~(1<<4);
 }

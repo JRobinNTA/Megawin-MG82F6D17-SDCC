@@ -8,319 +8,319 @@
                                       8 ;--------------------------------------------------------
                                       9 ; Public variables in this module
                                      10 ;--------------------------------------------------------
-                                     11 	.globl _gpio_init
-                                     12 	.globl _main
-                                     13 	.globl _System_Init
-                                     14 	.globl _P60
-                                     15 	.globl _P61
-                                     16 	.globl _B0
-                                     17 	.globl _B1
-                                     18 	.globl _B2
-                                     19 	.globl _B3
-                                     20 	.globl _B4
-                                     21 	.globl _B5
-                                     22 	.globl _B6
-                                     23 	.globl _B7
-                                     24 	.globl _P44
-                                     25 	.globl _P45
-                                     26 	.globl _P47
-                                     27 	.globl _ACC0
-                                     28 	.globl _ACC1
-                                     29 	.globl _ACC2
-                                     30 	.globl _ACC3
-                                     31 	.globl _ACC4
-                                     32 	.globl _ACC5
-                                     33 	.globl _ACC6
-                                     34 	.globl _ACC7
-                                     35 	.globl _CCF0
-                                     36 	.globl _CCF1
-                                     37 	.globl _CCF2
-                                     38 	.globl _CCF3
-                                     39 	.globl _CCF4
-                                     40 	.globl _CCF5
-                                     41 	.globl _CR
-                                     42 	.globl _CF
-                                     43 	.globl _P
-                                     44 	.globl _F1
-                                     45 	.globl _OV
-                                     46 	.globl _RS0
-                                     47 	.globl _RS1
-                                     48 	.globl _F0
-                                     49 	.globl _AC
-                                     50 	.globl _CY
-                                     51 	.globl _T6GAT0
-                                     52 	.globl _T6GAT1
-                                     53 	.globl _TR6
-                                     54 	.globl _T61E
-                                     55 	.globl _T6CKS0
-                                     56 	.globl _T6CKS1
-                                     57 	.globl _TF6
-                                     58 	.globl _T5GAT0
-                                     59 	.globl _T5GAT1
-                                     60 	.globl _TR5
-                                     61 	.globl _T51E
-                                     62 	.globl _T5CKS0
-                                     63 	.globl _T5CKS1
-                                     64 	.globl _TF5
-                                     65 	.globl _CP_RL3
-                                     66 	.globl _C_T3
-                                     67 	.globl _TR3
-                                     68 	.globl _EXEN3
-                                     69 	.globl _TL3IE
-                                     70 	.globl _TF3L
-                                     71 	.globl _EXF3
-                                     72 	.globl _TF3
-                                     73 	.globl _CP_RL2
-                                     74 	.globl _C_T2
-                                     75 	.globl _TR2
-                                     76 	.globl _EXEN2
-                                     77 	.globl _TCLK_TL2IE
-                                     78 	.globl _RCLK_TF2L
-                                     79 	.globl _EXF2
-                                     80 	.globl _TF2
-                                     81 	.globl _IT2
-                                     82 	.globl _IE2
-                                     83 	.globl _EX2
-                                     84 	.globl _INT2H
-                                     85 	.globl _PX0L
-                                     86 	.globl _PT0L
-                                     87 	.globl _PX1L
-                                     88 	.globl _PT1L
-                                     89 	.globl _PSL
-                                     90 	.globl _PT2L
-                                     91 	.globl _PX2L
-                                     92 	.globl _P30
-                                     93 	.globl _P31
-                                     94 	.globl _P33
-                                     95 	.globl _P34
-                                     96 	.globl _P35
-                                     97 	.globl _EX0
-                                     98 	.globl _ET0
-                                     99 	.globl _EX1
-                                    100 	.globl _ET1
-                                    101 	.globl _ES0
-                                    102 	.globl _ET2
-                                    103 	.globl _EDMA
-                                    104 	.globl _EA
-                                    105 	.globl _P24
-                                    106 	.globl _P22
-                                    107 	.globl _SM01
-                                    108 	.globl _SM11
-                                    109 	.globl _SM21
-                                    110 	.globl _REN1
-                                    111 	.globl _TB81
-                                    112 	.globl _RB81
-                                    113 	.globl _TI1
-                                    114 	.globl _RI1
-                                    115 	.globl _SM00
-                                    116 	.globl _SM10
-                                    117 	.globl _SM20
-                                    118 	.globl _REN0
-                                    119 	.globl _TB80
-                                    120 	.globl _RB80
-                                    121 	.globl _TI0
-                                    122 	.globl _RI0
-                                    123 	.globl _P17
-                                    124 	.globl _P16
-                                    125 	.globl _P15
-                                    126 	.globl _P14
-                                    127 	.globl _P13
-                                    128 	.globl _P12
-                                    129 	.globl _P11
-                                    130 	.globl _P10
-                                    131 	.globl _TF1
-                                    132 	.globl _TR1
-                                    133 	.globl _TF0
-                                    134 	.globl _TR0
-                                    135 	.globl _IE1
-                                    136 	.globl _IT1
-                                    137 	.globl _IE0
-                                    138 	.globl _IT0
-                                    139 	.globl _CCAP5H
-                                    140 	.globl _CCAP4H
-                                    141 	.globl _CCAP3H
-                                    142 	.globl _CCAP2H
-                                    143 	.globl _CCAP7H
-                                    144 	.globl _CCAP1H
-                                    145 	.globl _CCAP6H
-                                    146 	.globl _CCAP0H
-                                    147 	.globl _CH
-                                    148 	.globl _P6
-                                    149 	.globl _PCAPWM5
-                                    150 	.globl _PCAPWM4
-                                    151 	.globl _PCAPWM3
-                                    152 	.globl _PCAPWM2
-                                    153 	.globl _PCAPWM7
-                                    154 	.globl _PCAPWM1
-                                    155 	.globl _PCAPWM6
-                                    156 	.globl _PCAPWM0
-                                    157 	.globl _PAOE
-                                    158 	.globl _B
-                                    159 	.globl _CCAP5L
-                                    160 	.globl _CCAP4L
-                                    161 	.globl _CCAP3L
-                                    162 	.globl _CCAP2L
-                                    163 	.globl _CCAP7L
-                                    164 	.globl _CCAP1L
-                                    165 	.globl _CCAP6L
-                                    166 	.globl _CCAP0L
-                                    167 	.globl _CL
-                                    168 	.globl _P4
-                                    169 	.globl _ISPCR
-                                    170 	.globl _SCMD
-                                    171 	.globl _IFMT
-                                    172 	.globl _IFADRL
-                                    173 	.globl _IFADRH
-                                    174 	.globl _IFD
-                                    175 	.globl _WDTCR
-                                    176 	.globl _ACC
-                                    177 	.globl _CCAPM5
-                                    178 	.globl _CCAPM4
-                                    179 	.globl _CCAPM3
-                                    180 	.globl _CCAPM2
-                                    181 	.globl _CCAPM7
-                                    182 	.globl _CCAPM1
-                                    183 	.globl _CCAPM6
-                                    184 	.globl _CCAPM0
-                                    185 	.globl _CMOD
-                                    186 	.globl _CCON
-                                    187 	.globl _KBMASK
-                                    188 	.globl _KBCON
-                                    189 	.globl _KBPATN
-                                    190 	.globl _SICON
-                                    191 	.globl _SISTA
-                                    192 	.globl _SIDAT
-                                    193 	.globl _SIADR
-                                    194 	.globl _PSW
-                                    195 	.globl _CHRL
-                                    196 	.globl _CLRL
-                                    197 	.globl _TH6
-                                    198 	.globl _TH5
-                                    199 	.globl _TH3
-                                    200 	.globl _TH2
-                                    201 	.globl _TL6
-                                    202 	.globl _TL5
-                                    203 	.globl _TL3
-                                    204 	.globl _TL2
-                                    205 	.globl _THR6
-                                    206 	.globl _THR5
-                                    207 	.globl _RCAP3H
-                                    208 	.globl _RCAP2H
-                                    209 	.globl _TLR6
-                                    210 	.globl _TLR5
-                                    211 	.globl _RCAP3L
-                                    212 	.globl _RCAP2L
-                                    213 	.globl _T3MOD
-                                    214 	.globl _T2MOD
-                                    215 	.globl _T6CON
-                                    216 	.globl _T5CON
-                                    217 	.globl _T3CON
-                                    218 	.globl _T2CON
-                                    219 	.globl _CKCON0
-                                    220 	.globl _ADCDH
-                                    221 	.globl _ADCDL
-                                    222 	.globl _ADCON0
-                                    223 	.globl _ADCFG14
-                                    224 	.globl _ADCFG13
-                                    225 	.globl _ADCFG12
-                                    226 	.globl _ADCFG11
-                                    227 	.globl _ADCFG5
-                                    228 	.globl _ADCFG4
-                                    229 	.globl _ADCFG3
-                                    230 	.globl _ADCFG2
-                                    231 	.globl _ADCFG1
-                                    232 	.globl _ADCFG0
-                                    233 	.globl _XICFG1
-                                    234 	.globl _XICFG
-                                    235 	.globl _XICON
-                                    236 	.globl _CKCON1
-                                    237 	.globl _RTCCR
-                                    238 	.globl _CRC0DA
-                                    239 	.globl _PDTCRA
-                                    240 	.globl _PWMCR
-                                    241 	.globl _S0CR1
-                                    242 	.globl _SADEN
-                                    243 	.globl _IP0L
-                                    244 	.globl _IP0H
-                                    245 	.globl _RTCTM
-                                    246 	.globl _P6M0
-                                    247 	.globl _PDRVC1
-                                    248 	.globl _PDRVC0
-                                    249 	.globl _P4M0
-                                    250 	.globl _P3M1
-                                    251 	.globl _P3M0
-                                    252 	.globl _P3
-                                    253 	.globl _EIP1H
-                                    254 	.globl _EIP1L
-                                    255 	.globl _EIE1
-                                    256 	.globl _SFRPI
-                                    257 	.globl _ADDR
-                                    258 	.globl _IE
-                                    259 	.globl _EIP2H
-                                    260 	.globl _EIP2L
-                                    261 	.globl _EIE2
-                                    262 	.globl _AUXR11
-                                    263 	.globl _AUXR10
-                                    264 	.globl _AUXR9
-                                    265 	.globl _AUXR8
-                                    266 	.globl _AUXR7
-                                    267 	.globl _AUXR6
-                                    268 	.globl _AUXR5
-                                    269 	.globl _AUXR4
-                                    270 	.globl _AUXR3
-                                    271 	.globl _AUXR2
-                                    272 	.globl _AUXR1
-                                    273 	.globl _AUXR0
-                                    274 	.globl _P2
-                                    275 	.globl _S0CFG1
-                                    276 	.globl _S1CFG
-                                    277 	.globl _S0CFG
-                                    278 	.globl _S1BRC
-                                    279 	.globl _S0BRC
-                                    280 	.globl _S1BRT
-                                    281 	.globl _S0BRT
-                                    282 	.globl _S1BUF
-                                    283 	.globl _S0BUF
-                                    284 	.globl _S1CON
-                                    285 	.globl _S0CON
-                                    286 	.globl _PCON1
-                                    287 	.globl _BOREV
-                                    288 	.globl _TSPC0
-                                    289 	.globl _TRLC0
-                                    290 	.globl _TREN0
-                                    291 	.globl _P2M0
-                                    292 	.globl _DMADS0
-                                    293 	.globl _DMACG0
-                                    294 	.globl _DMACR0
-                                    295 	.globl _T3MOD1
-                                    296 	.globl _T2MOD1
-                                    297 	.globl _P4FDC
-                                    298 	.globl _P2FDC
-                                    299 	.globl _P1FDC
-                                    300 	.globl _P3FDC
-                                    301 	.globl _P6M1
-                                    302 	.globl _P4M1
-                                    303 	.globl _P2M1
-                                    304 	.globl _P1M1
-                                    305 	.globl _P1M0
-                                    306 	.globl _P1
-                                    307 	.globl _XRPS
-                                    308 	.globl _SFIE
-                                    309 	.globl _TH1
-                                    310 	.globl _TH0
-                                    311 	.globl _TL1
-                                    312 	.globl _TL0
-                                    313 	.globl _TMOD
-                                    314 	.globl _TCON
-                                    315 	.globl _PCON0
-                                    316 	.globl _SPDAT
-                                    317 	.globl _SPCON
-                                    318 	.globl _SPSTAT
-                                    319 	.globl _DPH
-                                    320 	.globl _DPL
-                                    321 	.globl _SP
-                                    322 	.globl _setup_pwm
-                                    323 	.globl _set_duty
+                                     11 	.globl _main
+                                     12 	.globl _System_Init
+                                     13 	.globl _P60
+                                     14 	.globl _P61
+                                     15 	.globl _B0
+                                     16 	.globl _B1
+                                     17 	.globl _B2
+                                     18 	.globl _B3
+                                     19 	.globl _B4
+                                     20 	.globl _B5
+                                     21 	.globl _B6
+                                     22 	.globl _B7
+                                     23 	.globl _P44
+                                     24 	.globl _P45
+                                     25 	.globl _P47
+                                     26 	.globl _ACC0
+                                     27 	.globl _ACC1
+                                     28 	.globl _ACC2
+                                     29 	.globl _ACC3
+                                     30 	.globl _ACC4
+                                     31 	.globl _ACC5
+                                     32 	.globl _ACC6
+                                     33 	.globl _ACC7
+                                     34 	.globl _CCF0
+                                     35 	.globl _CCF1
+                                     36 	.globl _CCF2
+                                     37 	.globl _CCF3
+                                     38 	.globl _CCF4
+                                     39 	.globl _CCF5
+                                     40 	.globl _CR
+                                     41 	.globl _CF
+                                     42 	.globl _P
+                                     43 	.globl _F1
+                                     44 	.globl _OV
+                                     45 	.globl _RS0
+                                     46 	.globl _RS1
+                                     47 	.globl _F0
+                                     48 	.globl _AC
+                                     49 	.globl _CY
+                                     50 	.globl _T6GAT0
+                                     51 	.globl _T6GAT1
+                                     52 	.globl _TR6
+                                     53 	.globl _T61E
+                                     54 	.globl _T6CKS0
+                                     55 	.globl _T6CKS1
+                                     56 	.globl _TF6
+                                     57 	.globl _T5GAT0
+                                     58 	.globl _T5GAT1
+                                     59 	.globl _TR5
+                                     60 	.globl _T51E
+                                     61 	.globl _T5CKS0
+                                     62 	.globl _T5CKS1
+                                     63 	.globl _TF5
+                                     64 	.globl _CP_RL3
+                                     65 	.globl _C_T3
+                                     66 	.globl _TR3
+                                     67 	.globl _EXEN3
+                                     68 	.globl _TL3IE
+                                     69 	.globl _TF3L
+                                     70 	.globl _EXF3
+                                     71 	.globl _TF3
+                                     72 	.globl _CP_RL2
+                                     73 	.globl _C_T2
+                                     74 	.globl _TR2
+                                     75 	.globl _EXEN2
+                                     76 	.globl _TCLK_TL2IE
+                                     77 	.globl _RCLK_TF2L
+                                     78 	.globl _EXF2
+                                     79 	.globl _TF2
+                                     80 	.globl _IT2
+                                     81 	.globl _IE2
+                                     82 	.globl _EX2
+                                     83 	.globl _INT2H
+                                     84 	.globl _PX0L
+                                     85 	.globl _PT0L
+                                     86 	.globl _PX1L
+                                     87 	.globl _PT1L
+                                     88 	.globl _PSL
+                                     89 	.globl _PT2L
+                                     90 	.globl _PX2L
+                                     91 	.globl _P30
+                                     92 	.globl _P31
+                                     93 	.globl _P33
+                                     94 	.globl _P34
+                                     95 	.globl _P35
+                                     96 	.globl _EX0
+                                     97 	.globl _ET0
+                                     98 	.globl _EX1
+                                     99 	.globl _ET1
+                                    100 	.globl _ES0
+                                    101 	.globl _ET2
+                                    102 	.globl _EDMA
+                                    103 	.globl _EA
+                                    104 	.globl _P24
+                                    105 	.globl _P22
+                                    106 	.globl _SM01
+                                    107 	.globl _SM11
+                                    108 	.globl _SM21
+                                    109 	.globl _REN1
+                                    110 	.globl _TB81
+                                    111 	.globl _RB81
+                                    112 	.globl _TI1
+                                    113 	.globl _RI1
+                                    114 	.globl _SM00
+                                    115 	.globl _SM10
+                                    116 	.globl _SM20
+                                    117 	.globl _REN0
+                                    118 	.globl _TB80
+                                    119 	.globl _RB80
+                                    120 	.globl _TI0
+                                    121 	.globl _RI0
+                                    122 	.globl _P17
+                                    123 	.globl _P16
+                                    124 	.globl _P15
+                                    125 	.globl _P14
+                                    126 	.globl _P13
+                                    127 	.globl _P12
+                                    128 	.globl _P11
+                                    129 	.globl _P10
+                                    130 	.globl _TF1
+                                    131 	.globl _TR1
+                                    132 	.globl _TF0
+                                    133 	.globl _TR0
+                                    134 	.globl _IE1
+                                    135 	.globl _IT1
+                                    136 	.globl _IE0
+                                    137 	.globl _IT0
+                                    138 	.globl _CCAP5H
+                                    139 	.globl _CCAP4H
+                                    140 	.globl _CCAP3H
+                                    141 	.globl _CCAP2H
+                                    142 	.globl _CCAP7H
+                                    143 	.globl _CCAP1H
+                                    144 	.globl _CCAP6H
+                                    145 	.globl _CCAP0H
+                                    146 	.globl _CH
+                                    147 	.globl _P6
+                                    148 	.globl _PCAPWM5
+                                    149 	.globl _PCAPWM4
+                                    150 	.globl _PCAPWM3
+                                    151 	.globl _PCAPWM2
+                                    152 	.globl _PCAPWM7
+                                    153 	.globl _PCAPWM1
+                                    154 	.globl _PCAPWM6
+                                    155 	.globl _PCAPWM0
+                                    156 	.globl _PAOE
+                                    157 	.globl _B
+                                    158 	.globl _CCAP5L
+                                    159 	.globl _CCAP4L
+                                    160 	.globl _CCAP3L
+                                    161 	.globl _CCAP2L
+                                    162 	.globl _CCAP7L
+                                    163 	.globl _CCAP1L
+                                    164 	.globl _CCAP6L
+                                    165 	.globl _CCAP0L
+                                    166 	.globl _CL
+                                    167 	.globl _P4
+                                    168 	.globl _ISPCR
+                                    169 	.globl _SCMD
+                                    170 	.globl _IFMT
+                                    171 	.globl _IFADRL
+                                    172 	.globl _IFADRH
+                                    173 	.globl _IFD
+                                    174 	.globl _WDTCR
+                                    175 	.globl _ACC
+                                    176 	.globl _CCAPM5
+                                    177 	.globl _CCAPM4
+                                    178 	.globl _CCAPM3
+                                    179 	.globl _CCAPM2
+                                    180 	.globl _CCAPM7
+                                    181 	.globl _CCAPM1
+                                    182 	.globl _CCAPM6
+                                    183 	.globl _CCAPM0
+                                    184 	.globl _CMOD
+                                    185 	.globl _CCON
+                                    186 	.globl _KBMASK
+                                    187 	.globl _KBCON
+                                    188 	.globl _KBPATN
+                                    189 	.globl _SICON
+                                    190 	.globl _SISTA
+                                    191 	.globl _SIDAT
+                                    192 	.globl _SIADR
+                                    193 	.globl _PSW
+                                    194 	.globl _CHRL
+                                    195 	.globl _CLRL
+                                    196 	.globl _TH6
+                                    197 	.globl _TH5
+                                    198 	.globl _TH3
+                                    199 	.globl _TH2
+                                    200 	.globl _TL6
+                                    201 	.globl _TL5
+                                    202 	.globl _TL3
+                                    203 	.globl _TL2
+                                    204 	.globl _THR6
+                                    205 	.globl _THR5
+                                    206 	.globl _RCAP3H
+                                    207 	.globl _RCAP2H
+                                    208 	.globl _TLR6
+                                    209 	.globl _TLR5
+                                    210 	.globl _RCAP3L
+                                    211 	.globl _RCAP2L
+                                    212 	.globl _T3MOD
+                                    213 	.globl _T2MOD
+                                    214 	.globl _T6CON
+                                    215 	.globl _T5CON
+                                    216 	.globl _T3CON
+                                    217 	.globl _T2CON
+                                    218 	.globl _CKCON0
+                                    219 	.globl _ADCDH
+                                    220 	.globl _ADCDL
+                                    221 	.globl _ADCON0
+                                    222 	.globl _ADCFG14
+                                    223 	.globl _ADCFG13
+                                    224 	.globl _ADCFG12
+                                    225 	.globl _ADCFG11
+                                    226 	.globl _ADCFG5
+                                    227 	.globl _ADCFG4
+                                    228 	.globl _ADCFG3
+                                    229 	.globl _ADCFG2
+                                    230 	.globl _ADCFG1
+                                    231 	.globl _ADCFG0
+                                    232 	.globl _XICFG1
+                                    233 	.globl _XICFG
+                                    234 	.globl _XICON
+                                    235 	.globl _CKCON1
+                                    236 	.globl _RTCCR
+                                    237 	.globl _CRC0DA
+                                    238 	.globl _PDTCRA
+                                    239 	.globl _PWMCR
+                                    240 	.globl _S0CR1
+                                    241 	.globl _SADEN
+                                    242 	.globl _IP0L
+                                    243 	.globl _IP0H
+                                    244 	.globl _RTCTM
+                                    245 	.globl _P6M0
+                                    246 	.globl _PDRVC1
+                                    247 	.globl _PDRVC0
+                                    248 	.globl _P4M0
+                                    249 	.globl _P3M1
+                                    250 	.globl _P3M0
+                                    251 	.globl _P3
+                                    252 	.globl _EIP1H
+                                    253 	.globl _EIP1L
+                                    254 	.globl _EIE1
+                                    255 	.globl _SFRPI
+                                    256 	.globl _ADDR
+                                    257 	.globl _IE
+                                    258 	.globl _EIP2H
+                                    259 	.globl _EIP2L
+                                    260 	.globl _EIE2
+                                    261 	.globl _AUXR11
+                                    262 	.globl _AUXR10
+                                    263 	.globl _AUXR9
+                                    264 	.globl _AUXR8
+                                    265 	.globl _AUXR7
+                                    266 	.globl _AUXR6
+                                    267 	.globl _AUXR5
+                                    268 	.globl _AUXR4
+                                    269 	.globl _AUXR3
+                                    270 	.globl _AUXR2
+                                    271 	.globl _AUXR1
+                                    272 	.globl _AUXR0
+                                    273 	.globl _P2
+                                    274 	.globl _S0CFG1
+                                    275 	.globl _S1CFG
+                                    276 	.globl _S0CFG
+                                    277 	.globl _S1BRC
+                                    278 	.globl _S0BRC
+                                    279 	.globl _S1BRT
+                                    280 	.globl _S0BRT
+                                    281 	.globl _S1BUF
+                                    282 	.globl _S0BUF
+                                    283 	.globl _S1CON
+                                    284 	.globl _S0CON
+                                    285 	.globl _PCON1
+                                    286 	.globl _BOREV
+                                    287 	.globl _TSPC0
+                                    288 	.globl _TRLC0
+                                    289 	.globl _TREN0
+                                    290 	.globl _P2M0
+                                    291 	.globl _DMADS0
+                                    292 	.globl _DMACG0
+                                    293 	.globl _DMACR0
+                                    294 	.globl _T3MOD1
+                                    295 	.globl _T2MOD1
+                                    296 	.globl _P4FDC
+                                    297 	.globl _P2FDC
+                                    298 	.globl _P1FDC
+                                    299 	.globl _P3FDC
+                                    300 	.globl _P6M1
+                                    301 	.globl _P4M1
+                                    302 	.globl _P2M1
+                                    303 	.globl _P1M1
+                                    304 	.globl _P1M0
+                                    305 	.globl _P1
+                                    306 	.globl _XRPS
+                                    307 	.globl _SFIE
+                                    308 	.globl _TH1
+                                    309 	.globl _TH0
+                                    310 	.globl _TL1
+                                    311 	.globl _TL0
+                                    312 	.globl _TMOD
+                                    313 	.globl _TCON
+                                    314 	.globl _PCON0
+                                    315 	.globl _SPDAT
+                                    316 	.globl _SPCON
+                                    317 	.globl _SPSTAT
+                                    318 	.globl _DPH
+                                    319 	.globl _DPL
+                                    320 	.globl _SP
+                                    321 	.globl _setup_pwm
+                                    322 	.globl _set_duty
+                                    323 	.globl _gpio_init
                                     324 ;--------------------------------------------------------
                                     325 ; special function registers
                                     326 ;--------------------------------------------------------
@@ -733,117 +733,172 @@
                                     733 ;------------------------------------------------------------
                                     734 ;Allocation info for local variables in function 'main'
                                     735 ;------------------------------------------------------------
-                                    736 ;	main.c:21: void main(void) {
-                                    737 ;	-----------------------------------------
-                                    738 ;	 function main
+                                    736 ;current_duty              Allocated to registers r6 r7 
+                                    737 ;------------------------------------------------------------
+                                    738 ;	main.c:27: void main(void) {
                                     739 ;	-----------------------------------------
-      000000                        740 _main:
-                           000007   741 	ar7 = 0x07
-                           000006   742 	ar6 = 0x06
-                           000005   743 	ar5 = 0x05
-                           000004   744 	ar4 = 0x04
-                           000003   745 	ar3 = 0x03
-                           000002   746 	ar2 = 0x02
-                           000001   747 	ar1 = 0x01
-                           000000   748 	ar0 = 0x00
-                                    749 ;	main.c:22: System_Init();
-      000000 12r00r00         [24]  750 	lcall	_System_Init
-                                    751 ;	main.c:23: setup_pwm(); // Initialize PCA for PWM generation
-      000003 12r00r0E         [24]  752 	lcall	_setup_pwm
-                                    753 ;	main.c:25: while (1) {
-      000006                        754 00102$:
-                                    755 ;	main.c:28: CCAP0L = 0x80; // Set low byte of duty cycle (50% of 256)
-      000006 75 EA 80         [24]  756 	mov	_CCAP0L,#0x80
-                                    757 ;	main.c:29: CCAP0H = 0x80; // Set high byte of duty cycle (50% of 256)
-      000009 75 FA 80         [24]  758 	mov	_CCAP0H,#0x80
-                                    759 ;	main.c:31: }
-      00000C 80 F8            [24]  760 	sjmp	00102$
-                                    761 ;------------------------------------------------------------
-                                    762 ;Allocation info for local variables in function 'setup_pwm'
-                                    763 ;------------------------------------------------------------
-                                    764 ;	main.c:35: void setup_pwm(void) {
-                                    765 ;	-----------------------------------------
-                                    766 ;	 function setup_pwm
-                                    767 ;	-----------------------------------------
-      00000E                        768 _setup_pwm:
-                                    769 ;	main.c:36: CMOD = 0x02; // PCA uses SYSCLK/2 as clock source 
-      00000E 75 D9 02         [24]  770 	mov	_CMOD,#0x02
-                                    771 ;	main.c:39: PCAPWM0 = 0x00; // Set to CL only mode for assurance and cleared the reserved as per datasheet
-      000011 75 F2 00         [24]  772 	mov	_PCAPWM0,#0x00
-                                    773 ;	main.c:40: CL = 0x00;   // Clear PCA low byte counter
-      000014 75 E9 00         [24]  774 	mov	_CL,#0x00
-                                    775 ;	main.c:41: CH = 0x00;   // Clear PCA high byte counter 
-      000017 75 F9 00         [24]  776 	mov	_CH,#0x00
-                                    777 ;	main.c:43: CL = RELOAD_VALUE & 0xFF;     // Set low byte of value
-      00001A 75 E9 88         [24]  778 	mov	_CL,#0x88
-                                    779 ;	main.c:44: CH = (RELOAD_VALUE >> 8) & 0xFF; // Set high byte of  value
-      00001D 75 F9 00         [24]  780 	mov	_CH,#0x00
-                                    781 ;	main.c:45: CLRL = RELOAD_VALUE & 0xFF;     // Set low byte of reload value
-      000020 75 CE 88         [24]  782 	mov	_CLRL,#0x88
-                                    783 ;	main.c:46: CHRL = ( RELOAD_VALUE >> 8) & 0xFF; // Set high byte of reload value
-      000023 75 CF 00         [24]  784 	mov	_CHRL,#0x00
-                                    785 ;	main.c:49: set_duty(50);  
-      000026 90 00 32         [24]  786 	mov	dptr,#0x0032
-      000029 12r00r32         [24]  787 	lcall	_set_duty
-                                    788 ;	main.c:51: CCAPM0 = 0x42; // Enable PWM mode for PCA Module 0 by setting the bit 1 or PWM0
-      00002C 75 DA 42         [24]  789 	mov	_CCAPM0,#0x42
-                                    790 ;	main.c:53: CR = 1;        // Start PCA timer
-                                    791 ;	assignBit
-      00002F D2 DE            [12]  792 	setb	_CR
-                                    793 ;	main.c:54: }
-      000031 22               [24]  794 	ret
-                                    795 ;------------------------------------------------------------
-                                    796 ;Allocation info for local variables in function 'set_duty'
-                                    797 ;------------------------------------------------------------
-                                    798 ;duty                      Allocated to registers 
-                                    799 ;T                         Allocated to registers 
-                                    800 ;duty_threshold            Allocated to registers r6 r7 
-                                    801 ;------------------------------------------------------------
-                                    802 ;	main.c:57: void set_duty(unsigned int duty){
-                                    803 ;	-----------------------------------------
-                                    804 ;	 function set_duty
-                                    805 ;	-----------------------------------------
-      000032                        806 _set_duty:
-                                    807 ;	main.c:60: unsigned int duty_threshold = RELOAD_VALUE + (unsigned int)(T * (1 - (duty/100))); 
-      000032 75*00 64         [24]  808 	mov	__divuint_PARM_2,#0x64
-      000035 75*01 00         [24]  809 	mov	(__divuint_PARM_2 + 1),#0x00
-      000038 12r00r00         [24]  810 	lcall	__divuint
-      00003B AE 82            [24]  811 	mov	r6,dpl
-      00003D AF 83            [24]  812 	mov	r7,dph
-      00003F 74 01            [12]  813 	mov	a,#0x01
-      000041 C3               [12]  814 	clr	c
-      000042 9E               [12]  815 	subb	a,r6
-      000043 F5*00            [12]  816 	mov	__mulint_PARM_2,a
-      000045 E4               [12]  817 	clr	a
-      000046 9F               [12]  818 	subb	a,r7
-      000047 F5*01            [12]  819 	mov	(__mulint_PARM_2 + 1),a
-      000049 90 00 78         [24]  820 	mov	dptr,#0x0078
-      00004C 12r00r00         [24]  821 	lcall	__mulint
-      00004F E5 82            [12]  822 	mov	a,dpl
-      000051 85 83 F0         [24]  823 	mov	b,dph
-      000054 24 88            [12]  824 	add	a,#0x88
-      000056 FE               [12]  825 	mov	r6,a
-      000057 E4               [12]  826 	clr	a
-      000058 35 F0            [12]  827 	addc	a,b
-                                    828 ;	main.c:62: if(!CR) CCAP0L = duty_threshold; // Check if its initial case if yes directly set the control reg
-      00005A 20 DE 02         [24]  829 	jb	_CR,00102$
-      00005D 8E EA            [24]  830 	mov	_CCAP0L,r6
-      00005F                        831 00102$:
-                                    832 ;	main.c:63: CCAP0H = duty_threshold; // If not initial update reload register
-      00005F 8E FA            [24]  833 	mov	_CCAP0H,r6
-                                    834 ;	main.c:64: }
-      000061 22               [24]  835 	ret
-                                    836 ;------------------------------------------------------------
-                                    837 ;Allocation info for local variables in function 'gpio_init'
+                                    740 ;	 function main
+                                    741 ;	-----------------------------------------
+      000000                        742 _main:
+                           000007   743 	ar7 = 0x07
+                           000006   744 	ar6 = 0x06
+                           000005   745 	ar5 = 0x05
+                           000004   746 	ar4 = 0x04
+                           000003   747 	ar3 = 0x03
+                           000002   748 	ar2 = 0x02
+                           000001   749 	ar1 = 0x01
+                           000000   750 	ar0 = 0x00
+                                    751 ;	main.c:28: System_Init();
+      000000 12r00r00         [24]  752 	lcall	_System_Init
+                                    753 ;	main.c:29: gpio_init();
+      000003 12r00r90         [24]  754 	lcall	_gpio_init
+                                    755 ;	main.c:30: setup_pwm(); // Initialize PCA for PWM generation
+      000006 12r00r3C         [24]  756 	lcall	_setup_pwm
+                                    757 ;	main.c:32: while (1) {
+      000009                        758 00110$:
+                                    759 ;	main.c:34: unsigned int current_duty = 50; // set initial duty as 50%
+      000009 7E 32            [12]  760 	mov	r6,#0x32
+      00000B 7F 00            [12]  761 	mov	r7,#0x00
+                                    762 ;	main.c:35: while(!SWITCH_PIN){
+      00000D                        763 00101$:
+      00000D 20 97 04         [24]  764 	jb	_P17,00103$
+                                    765 ;	main.c:36: LED_PIN = 0x0;
+                                    766 ;	assignBit
+      000010 C2 95            [12]  767 	clr	_P15
+      000012 80 F9            [24]  768 	sjmp	00101$
+      000014                        769 00103$:
+                                    770 ;	main.c:38: LED_PIN = 0x1; // Turn on LED have to seperate the init code from the loop
+                                    771 ;	assignBit
+      000014 D2 95            [12]  772 	setb	_P15
+                                    773 ;	main.c:40: if(FEEDBACK_PIN) current_duty--;
+      000016 30 A4 07         [24]  774 	jnb	_P24,00107$
+      000019 1E               [12]  775 	dec	r6
+      00001A BE FF 01         [24]  776 	cjne	r6,#0xff,00136$
+      00001D 1F               [12]  777 	dec	r7
+      00001E                        778 00136$:
+      00001E 80 13            [24]  779 	sjmp	00108$
+      000020                        780 00107$:
+                                    781 ;	main.c:42: else if(~FEEDBACK_PIN) current_duty++;
+      000020 A2 A4            [12]  782 	mov	c,_P24
+      000022 E4               [12]  783 	clr	a
+      000023 33               [12]  784 	rlc	a
+      000024 7D 00            [12]  785 	mov	r5,#0x00
+      000026 F4               [12]  786 	cpl	a
+      000027 FC               [12]  787 	mov	r4,a
+      000028 ED               [12]  788 	mov	a,r5
+      000029 F4               [12]  789 	cpl	a
+      00002A FD               [12]  790 	mov	r5,a
+      00002B 4C               [12]  791 	orl	a,r4
+      00002C 60 05            [24]  792 	jz	00108$
+      00002E 0E               [12]  793 	inc	r6
+      00002F BE 00 01         [24]  794 	cjne	r6,#0x00,00138$
+      000032 0F               [12]  795 	inc	r7
+      000033                        796 00138$:
+      000033                        797 00108$:
+                                    798 ;	main.c:44: set_duty(current_duty); 
+      000033 8E 82            [24]  799 	mov	dpl,r6
+      000035 8F 83            [24]  800 	mov	dph,r7
+      000037 12r00r60         [24]  801 	lcall	_set_duty
+                                    802 ;	main.c:46: }
+      00003A 80 CD            [24]  803 	sjmp	00110$
+                                    804 ;------------------------------------------------------------
+                                    805 ;Allocation info for local variables in function 'setup_pwm'
+                                    806 ;------------------------------------------------------------
+                                    807 ;	main.c:50: void setup_pwm(void) {
+                                    808 ;	-----------------------------------------
+                                    809 ;	 function setup_pwm
+                                    810 ;	-----------------------------------------
+      00003C                        811 _setup_pwm:
+                                    812 ;	main.c:51: CMOD = 0x02; // PCA uses SYSCLK/2 as clock source 
+      00003C 75 D9 02         [24]  813 	mov	_CMOD,#0x02
+                                    814 ;	main.c:54: PCAPWM0 = 0x00; // Set to CL only mode for assurance and cleared the reserved as per datasheet
+      00003F 75 F2 00         [24]  815 	mov	_PCAPWM0,#0x00
+                                    816 ;	main.c:55: CL = 0x00;   // Clear PCA low byte counter
+      000042 75 E9 00         [24]  817 	mov	_CL,#0x00
+                                    818 ;	main.c:56: CH = 0x00;   // Clear PCA high byte counter
+      000045 75 F9 00         [24]  819 	mov	_CH,#0x00
+                                    820 ;	main.c:58: CL = RELOAD_VALUE & 0xFF;     // Set low byte of value
+      000048 75 E9 88         [24]  821 	mov	_CL,#0x88
+                                    822 ;	main.c:59: CH = (RELOAD_VALUE >> 8) & 0xFF; // Set high byte of  value
+      00004B 75 F9 00         [24]  823 	mov	_CH,#0x00
+                                    824 ;	main.c:60: CLRL = RELOAD_VALUE & 0xFF;     // Set low byte of reload value
+      00004E 75 CE 88         [24]  825 	mov	_CLRL,#0x88
+                                    826 ;	main.c:61: CHRL = ( RELOAD_VALUE >> 8) & 0xFF; // Set high byte of reload value
+      000051 75 CF 00         [24]  827 	mov	_CHRL,#0x00
+                                    828 ;	main.c:64: set_duty(50);  
+      000054 90 00 32         [24]  829 	mov	dptr,#0x0032
+      000057 12r00r60         [24]  830 	lcall	_set_duty
+                                    831 ;	main.c:66: CCAPM0 = 0x42; // Enable PWM mode for PCA Module 0 by setting the bit 1 or PWM0
+      00005A 75 DA 42         [24]  832 	mov	_CCAPM0,#0x42
+                                    833 ;	main.c:68: CR = 1;        // Start PCA timer
+                                    834 ;	assignBit
+      00005D D2 DE            [12]  835 	setb	_CR
+                                    836 ;	main.c:69: }
+      00005F 22               [24]  837 	ret
                                     838 ;------------------------------------------------------------
-                                    839 ;	main.c:67: void gpio_init(void){
-                                    840 ;	-----------------------------------------
-                                    841 ;	 function gpio_init
-                                    842 ;	-----------------------------------------
-      000062                        843 _gpio_init:
-                                    844 ;	main.c:69: }
-      000062 22               [24]  845 	ret
-                                    846 	.area CSEG    (CODE)
-                                    847 	.area CONST   (CODE)
-                                    848 	.area XINIT   (CODE)
-                                    849 	.area CABS    (ABS,CODE)
+                                    839 ;Allocation info for local variables in function 'set_duty'
+                                    840 ;------------------------------------------------------------
+                                    841 ;duty                      Allocated to registers 
+                                    842 ;T                         Allocated to registers 
+                                    843 ;duty_threshold            Allocated to registers r6 r7 
+                                    844 ;------------------------------------------------------------
+                                    845 ;	main.c:72: void set_duty(unsigned int duty){
+                                    846 ;	-----------------------------------------
+                                    847 ;	 function set_duty
+                                    848 ;	-----------------------------------------
+      000060                        849 _set_duty:
+                                    850 ;	main.c:75: unsigned int duty_threshold = RELOAD_VALUE + (unsigned int)(T * (1 - (duty/100))); 
+      000060 75*00 64         [24]  851 	mov	__divuint_PARM_2,#0x64
+      000063 75*01 00         [24]  852 	mov	(__divuint_PARM_2 + 1),#0x00
+      000066 12r00r00         [24]  853 	lcall	__divuint
+      000069 AE 82            [24]  854 	mov	r6,dpl
+      00006B AF 83            [24]  855 	mov	r7,dph
+      00006D 74 01            [12]  856 	mov	a,#0x01
+      00006F C3               [12]  857 	clr	c
+      000070 9E               [12]  858 	subb	a,r6
+      000071 F5*00            [12]  859 	mov	__mulint_PARM_2,a
+      000073 E4               [12]  860 	clr	a
+      000074 9F               [12]  861 	subb	a,r7
+      000075 F5*01            [12]  862 	mov	(__mulint_PARM_2 + 1),a
+      000077 90 00 78         [24]  863 	mov	dptr,#0x0078
+      00007A 12r00r00         [24]  864 	lcall	__mulint
+      00007D E5 82            [12]  865 	mov	a,dpl
+      00007F 85 83 F0         [24]  866 	mov	b,dph
+      000082 24 88            [12]  867 	add	a,#0x88
+      000084 FE               [12]  868 	mov	r6,a
+      000085 E4               [12]  869 	clr	a
+      000086 35 F0            [12]  870 	addc	a,b
+                                    871 ;	main.c:77: if(!CR) CCAP0L = duty_threshold; // Check if its initial case if yes directly set the control reg
+      000088 20 DE 02         [24]  872 	jb	_CR,00102$
+      00008B 8E EA            [24]  873 	mov	_CCAP0L,r6
+      00008D                        874 00102$:
+                                    875 ;	main.c:78: CCAP0H = duty_threshold; // If not initial update reload register
+      00008D 8E FA            [24]  876 	mov	_CCAP0H,r6
+                                    877 ;	main.c:79: }
+      00008F 22               [24]  878 	ret
+                                    879 ;------------------------------------------------------------
+                                    880 ;Allocation info for local variables in function 'gpio_init'
+                                    881 ;------------------------------------------------------------
+                                    882 ;	main.c:82: void gpio_init(void){   
+                                    883 ;	-----------------------------------------
+                                    884 ;	 function gpio_init
+                                    885 ;	-----------------------------------------
+      000090                        886 _gpio_init:
+                                    887 ;	main.c:84: P2M0 |= (1<<2);
+      000090 43 95 04         [24]  888 	orl	_P2M0,#0x04
+                                    889 ;	main.c:85: P2M1 &= ~(1<<2); 
+      000093 53 92 FB         [24]  890 	anl	_P2M1,#0xfb
+                                    891 ;	main.c:88: P1M0 |= (1<<5);
+      000096 43 91 20         [24]  892 	orl	_P1M0,#0x20
+                                    893 ;	main.c:89: P1M1 &= ~(1<<5);
+      000099 53 92 DF         [24]  894 	anl	_P1M1,#0xdf
+                                    895 ;	main.c:92: P1M1 &= ~(1<<7); 
+      00009C 53 92 7F         [24]  896 	anl	_P1M1,#0x7f
+                                    897 ;	main.c:95: P2M1 &= ~(1<<4);
+      00009F 53 92 EF         [24]  898 	anl	_P2M1,#0xef
+                                    899 ;	main.c:96: }
+      0000A2 22               [24]  900 	ret
+                                    901 	.area CSEG    (CODE)
+                                    902 	.area CONST   (CODE)
+                                    903 	.area XINIT   (CODE)
+                                    904 	.area CABS    (ABS,CODE)

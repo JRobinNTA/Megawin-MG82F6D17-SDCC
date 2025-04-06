@@ -80,9 +80,9 @@ C:   0000005F  s_GSINIT5
 C:   00000062  s_CSEG                          
 C:   000000CE  l_SSEG                          
 C:   00000100  l_IRAM                          
-C:   000001EA  l_CSEG                          
-C:   0000024C  s_CONST                         
-C:   0000024C  s_XINIT                         
+C:   0000022A  l_CSEG                          
+C:   0000028C  s_CONST                         
+C:   0000028C  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -569,21 +569,21 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000062    000001EA =         490. bytes (REL,CON,CODE)
+CSEG                                00000062    0000022A =         554. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   00000062  _main                              main
-C:   00000070  _setup_pwm                         main
-C:   00000094  _set_duty                          main
-C:   000000C4  _gpio_init                         main
-C:   000000C5  _DRV_PageP_Write                   MG82F6D17_COMMON_DRV
-C:   000000E2  _DRV_PageP_Read                    MG82F6D17_COMMON_DRV
-C:   000000FF  _System_Init                       MG82F6D17_WIZARD
-C:   00000202  __divuint                          _divuint
-C:   0000022B  __mulint                           _mulint
-C:   0000022B  __mulint_dummy                     _mulint
-C:   00000248  __sdcc_external_startup            _startup
+C:   0000009E  _setup_pwm                         main
+C:   000000C2  _set_duty                          main
+C:   000000F2  _gpio_init                         main
+C:   00000105  _DRV_PageP_Write                   MG82F6D17_COMMON_DRV
+C:   00000122  _DRV_PageP_Read                    MG82F6D17_COMMON_DRV
+C:   0000013F  _System_Init                       MG82F6D17_WIZARD
+C:   00000242  __divuint                          _divuint
+C:   0000026B  __mulint                           _mulint
+C:   0000026B  __mulint_dummy                     _mulint
+C:   00000288  __sdcc_external_startup            _startup
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 21.
 
