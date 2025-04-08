@@ -26,22 +26,31 @@ void gpio_init(void);
 
 void main(void) {
     System_Init();
-    gpio_init();
+    gpio_init(); // Init gpio
     setup_pwm(); // Initialize PCA for PWM generation
     // Here the duty cycle is varied by loading the CCAP0L and CCAP0H so the control algorithm can be added in to control this
+    unsigned int current_duty = 50; //Set initial duty as 50% 
     while (1) {
         // Main loop: Adjust duty cycle here if needed
-        unsigned int current_duty = 50; // set initial duty as 50%
-        while(!SWITCH_PIN){
-            LED_PIN = 0x0;
-        }
-        LED_PIN = 0x1; // Turn on LED have to seperate the init code from the loop
-        // If FEEDBACK_PIN is high decrease the duty cycle by 1
-        if(FEEDBACK_PIN) current_duty--;
-        // If FEEDBACK_PIN is low increase the duty cycle by 1 
-        else if(~FEEDBACK_PIN) current_duty++;
+        CR = 0x0; //turn off the PWM
+        LED_PIN = 0x0; //turn off the LED
 
-        set_duty(current_duty); 
+        // The blocking loop
+        while(!SWITCH_PIN){
+
+        }
+
+        CR = 0x1; // Turn on the PWM
+        LED_PIN = 0x1; // Turn on LED
+        // The control loop
+        while(SWITCH_PIN){
+            // If FEEDBACK_PIN is high decrease the duty cycle by 1
+            if(FEEDBACK_PIN && current_duty > 0) current_duty--;
+            // If FEEDBACK_PIN is low increase the duty cycle by 1 
+            else if (~FEEDBACK_PIN && current_duty < 100) current_duty++;
+            // Update the duty cycle
+            set_duty(current_duty);
+        }
     }
 }
 
@@ -64,15 +73,16 @@ void setup_pwm(void) {
     set_duty(50);  
 
     CCAPM0 = 0x42; // Enable PWM mode for PCA Module 0 by setting the bit 1 or PWM0
-    // In addition to the PWM mode the comparator is also enabled here by setting the bit 6 or ECOM
-    CR = 1;        // Start PCA timer
+    // In addition to the PWM mode the comparator is also enabled here by setting the bit 6 or ECOM 
 }
 
 // Used to set the required duty ratio
 void set_duty(unsigned int duty){
         
     unsigned int T = 256 - RELOAD_VALUE;   // For example, 120
-    unsigned int duty_threshold = RELOAD_VALUE + (unsigned int)(T * (1 - (duty/100))); 
+    // scale T*duty first, then divide
+    unsigned int duty_counts = (T * duty) / 100;
+    unsigned int duty_threshold = RELOAD_VALUE + (T - duty_counts);
     // For duty = 0.5, duty_threshold becomes 196
     if(!CR) CCAP0L = duty_threshold; // Check if its initial case if yes directly set the control reg
     CCAP0H = duty_threshold; // If not initial update reload register

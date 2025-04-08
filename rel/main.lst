@@ -750,155 +750,175 @@
                            000000   750 	ar0 = 0x00
                                     751 ;	main.c:28: System_Init();
       000000 12r00r00         [24]  752 	lcall	_System_Init
-                                    753 ;	main.c:29: gpio_init();
-      000003 12r00r90         [24]  754 	lcall	_gpio_init
+                                    753 ;	main.c:29: gpio_init(); // Init gpio
+      000003 12r00rA7         [24]  754 	lcall	_gpio_init
                                     755 ;	main.c:30: setup_pwm(); // Initialize PCA for PWM generation
-      000006 12r00r3C         [24]  756 	lcall	_setup_pwm
-                                    757 ;	main.c:32: while (1) {
-      000009                        758 00110$:
-                                    759 ;	main.c:34: unsigned int current_duty = 50; // set initial duty as 50%
-      000009 7E 32            [12]  760 	mov	r6,#0x32
-      00000B 7F 00            [12]  761 	mov	r7,#0x00
-                                    762 ;	main.c:35: while(!SWITCH_PIN){
-      00000D                        763 00101$:
-      00000D 20 97 04         [24]  764 	jb	_P17,00103$
-                                    765 ;	main.c:36: LED_PIN = 0x0;
+      000006 12r00r56         [24]  756 	lcall	_setup_pwm
+                                    757 ;	main.c:32: unsigned int current_duty = 50; //Set initial duty as 50% 
+      000009 7E 32            [12]  758 	mov	r6,#0x32
+      00000B 7F 00            [12]  759 	mov	r7,#0x00
+                                    760 ;	main.c:33: while (1) {
+      00000D                        761 00115$:
+                                    762 ;	main.c:35: CR = 0x0; //turn off the PWM
+                                    763 ;	assignBit
+      00000D C2 DE            [12]  764 	clr	_CR
+                                    765 ;	main.c:36: LED_PIN = 0x0; //turn off the LED
                                     766 ;	assignBit
-      000010 C2 95            [12]  767 	clr	_P15
-      000012 80 F9            [24]  768 	sjmp	00101$
-      000014                        769 00103$:
-                                    770 ;	main.c:38: LED_PIN = 0x1; // Turn on LED have to seperate the init code from the loop
-                                    771 ;	assignBit
-      000014 D2 95            [12]  772 	setb	_P15
-                                    773 ;	main.c:40: if(FEEDBACK_PIN) current_duty--;
-      000016 30 A4 07         [24]  774 	jnb	_P24,00107$
-      000019 1E               [12]  775 	dec	r6
-      00001A BE FF 01         [24]  776 	cjne	r6,#0xff,00136$
-      00001D 1F               [12]  777 	dec	r7
-      00001E                        778 00136$:
-      00001E 80 13            [24]  779 	sjmp	00108$
-      000020                        780 00107$:
-                                    781 ;	main.c:42: else if(~FEEDBACK_PIN) current_duty++;
-      000020 A2 A4            [12]  782 	mov	c,_P24
-      000022 E4               [12]  783 	clr	a
-      000023 33               [12]  784 	rlc	a
-      000024 7D 00            [12]  785 	mov	r5,#0x00
-      000026 F4               [12]  786 	cpl	a
-      000027 FC               [12]  787 	mov	r4,a
-      000028 ED               [12]  788 	mov	a,r5
-      000029 F4               [12]  789 	cpl	a
-      00002A FD               [12]  790 	mov	r5,a
-      00002B 4C               [12]  791 	orl	a,r4
-      00002C 60 05            [24]  792 	jz	00108$
-      00002E 0E               [12]  793 	inc	r6
-      00002F BE 00 01         [24]  794 	cjne	r6,#0x00,00138$
-      000032 0F               [12]  795 	inc	r7
-      000033                        796 00138$:
-      000033                        797 00108$:
-                                    798 ;	main.c:44: set_duty(current_duty); 
-      000033 8E 82            [24]  799 	mov	dpl,r6
-      000035 8F 83            [24]  800 	mov	dph,r7
-      000037 12r00r60         [24]  801 	lcall	_set_duty
-                                    802 ;	main.c:46: }
-      00003A 80 CD            [24]  803 	sjmp	00110$
-                                    804 ;------------------------------------------------------------
-                                    805 ;Allocation info for local variables in function 'setup_pwm'
-                                    806 ;------------------------------------------------------------
-                                    807 ;	main.c:50: void setup_pwm(void) {
-                                    808 ;	-----------------------------------------
-                                    809 ;	 function setup_pwm
-                                    810 ;	-----------------------------------------
-      00003C                        811 _setup_pwm:
-                                    812 ;	main.c:51: CMOD = 0x02; // PCA uses SYSCLK/2 as clock source 
-      00003C 75 D9 02         [24]  813 	mov	_CMOD,#0x02
-                                    814 ;	main.c:54: PCAPWM0 = 0x00; // Set to CL only mode for assurance and cleared the reserved as per datasheet
-      00003F 75 F2 00         [24]  815 	mov	_PCAPWM0,#0x00
-                                    816 ;	main.c:55: CL = 0x00;   // Clear PCA low byte counter
-      000042 75 E9 00         [24]  817 	mov	_CL,#0x00
-                                    818 ;	main.c:56: CH = 0x00;   // Clear PCA high byte counter
-      000045 75 F9 00         [24]  819 	mov	_CH,#0x00
-                                    820 ;	main.c:58: CL = RELOAD_VALUE & 0xFF;     // Set low byte of value
-      000048 75 E9 88         [24]  821 	mov	_CL,#0x88
-                                    822 ;	main.c:59: CH = (RELOAD_VALUE >> 8) & 0xFF; // Set high byte of  value
-      00004B 75 F9 00         [24]  823 	mov	_CH,#0x00
-                                    824 ;	main.c:60: CLRL = RELOAD_VALUE & 0xFF;     // Set low byte of reload value
-      00004E 75 CE 88         [24]  825 	mov	_CLRL,#0x88
-                                    826 ;	main.c:61: CHRL = ( RELOAD_VALUE >> 8) & 0xFF; // Set high byte of reload value
-      000051 75 CF 00         [24]  827 	mov	_CHRL,#0x00
-                                    828 ;	main.c:64: set_duty(50);  
-      000054 90 00 32         [24]  829 	mov	dptr,#0x0032
-      000057 12r00r60         [24]  830 	lcall	_set_duty
-                                    831 ;	main.c:66: CCAPM0 = 0x42; // Enable PWM mode for PCA Module 0 by setting the bit 1 or PWM0
-      00005A 75 DA 42         [24]  832 	mov	_CCAPM0,#0x42
-                                    833 ;	main.c:68: CR = 1;        // Start PCA timer
-                                    834 ;	assignBit
-      00005D D2 DE            [12]  835 	setb	_CR
-                                    836 ;	main.c:69: }
-      00005F 22               [24]  837 	ret
-                                    838 ;------------------------------------------------------------
-                                    839 ;Allocation info for local variables in function 'set_duty'
-                                    840 ;------------------------------------------------------------
-                                    841 ;duty                      Allocated to registers 
-                                    842 ;T                         Allocated to registers 
-                                    843 ;duty_threshold            Allocated to registers r6 r7 
-                                    844 ;------------------------------------------------------------
-                                    845 ;	main.c:72: void set_duty(unsigned int duty){
-                                    846 ;	-----------------------------------------
-                                    847 ;	 function set_duty
-                                    848 ;	-----------------------------------------
-      000060                        849 _set_duty:
-                                    850 ;	main.c:75: unsigned int duty_threshold = RELOAD_VALUE + (unsigned int)(T * (1 - (duty/100))); 
-      000060 75*00 64         [24]  851 	mov	__divuint_PARM_2,#0x64
-      000063 75*01 00         [24]  852 	mov	(__divuint_PARM_2 + 1),#0x00
-      000066 12r00r00         [24]  853 	lcall	__divuint
-      000069 AE 82            [24]  854 	mov	r6,dpl
-      00006B AF 83            [24]  855 	mov	r7,dph
-      00006D 74 01            [12]  856 	mov	a,#0x01
-      00006F C3               [12]  857 	clr	c
-      000070 9E               [12]  858 	subb	a,r6
-      000071 F5*00            [12]  859 	mov	__mulint_PARM_2,a
-      000073 E4               [12]  860 	clr	a
-      000074 9F               [12]  861 	subb	a,r7
-      000075 F5*01            [12]  862 	mov	(__mulint_PARM_2 + 1),a
-      000077 90 00 78         [24]  863 	mov	dptr,#0x0078
-      00007A 12r00r00         [24]  864 	lcall	__mulint
-      00007D E5 82            [12]  865 	mov	a,dpl
-      00007F 85 83 F0         [24]  866 	mov	b,dph
-      000082 24 88            [12]  867 	add	a,#0x88
-      000084 FE               [12]  868 	mov	r6,a
-      000085 E4               [12]  869 	clr	a
-      000086 35 F0            [12]  870 	addc	a,b
-                                    871 ;	main.c:77: if(!CR) CCAP0L = duty_threshold; // Check if its initial case if yes directly set the control reg
-      000088 20 DE 02         [24]  872 	jb	_CR,00102$
-      00008B 8E EA            [24]  873 	mov	_CCAP0L,r6
-      00008D                        874 00102$:
-                                    875 ;	main.c:78: CCAP0H = duty_threshold; // If not initial update reload register
-      00008D 8E FA            [24]  876 	mov	_CCAP0H,r6
-                                    877 ;	main.c:79: }
-      00008F 22               [24]  878 	ret
-                                    879 ;------------------------------------------------------------
-                                    880 ;Allocation info for local variables in function 'gpio_init'
-                                    881 ;------------------------------------------------------------
-                                    882 ;	main.c:82: void gpio_init(void){   
-                                    883 ;	-----------------------------------------
-                                    884 ;	 function gpio_init
-                                    885 ;	-----------------------------------------
-      000090                        886 _gpio_init:
-                                    887 ;	main.c:84: P2M0 |= (1<<2);
-      000090 43 95 04         [24]  888 	orl	_P2M0,#0x04
-                                    889 ;	main.c:85: P2M1 &= ~(1<<2); 
-      000093 53 92 FB         [24]  890 	anl	_P2M1,#0xfb
-                                    891 ;	main.c:88: P1M0 |= (1<<5);
-      000096 43 91 20         [24]  892 	orl	_P1M0,#0x20
-                                    893 ;	main.c:89: P1M1 &= ~(1<<5);
-      000099 53 92 DF         [24]  894 	anl	_P1M1,#0xdf
-                                    895 ;	main.c:92: P1M1 &= ~(1<<7); 
-      00009C 53 92 7F         [24]  896 	anl	_P1M1,#0x7f
-                                    897 ;	main.c:95: P2M1 &= ~(1<<4);
-      00009F 53 92 EF         [24]  898 	anl	_P2M1,#0xef
-                                    899 ;	main.c:96: }
-      0000A2 22               [24]  900 	ret
-                                    901 	.area CSEG    (CODE)
-                                    902 	.area CONST   (CODE)
-                                    903 	.area XINIT   (CODE)
-                                    904 	.area CABS    (ABS,CODE)
+      00000F C2 95            [12]  767 	clr	_P15
+                                    768 ;	main.c:39: while(!SWITCH_PIN){
+      000011                        769 00101$:
+      000011 30 97 FD         [24]  770 	jnb	_P17,00101$
+                                    771 ;	main.c:42: CR = 0x1; // Turn on the PWM
+                                    772 ;	assignBit
+      000014 D2 DE            [12]  773 	setb	_CR
+                                    774 ;	main.c:43: LED_PIN = 0x1; // Turn on LED
+                                    775 ;	assignBit
+      000016 D2 95            [12]  776 	setb	_P15
+                                    777 ;	main.c:45: while(SWITCH_PIN){
+      000018                        778 00111$:
+      000018 30 97 F2         [24]  779 	jnb	_P17,00115$
+                                    780 ;	main.c:47: if(FEEDBACK_PIN && current_duty > 0) current_duty--;
+      00001B 30 A4 0B         [24]  781 	jnb	_P24,00108$
+      00001E EE               [12]  782 	mov	a,r6
+      00001F 4F               [12]  783 	orl	a,r7
+      000020 60 07            [24]  784 	jz	00108$
+      000022 1E               [12]  785 	dec	r6
+      000023 BE FF 01         [24]  786 	cjne	r6,#0xff,00159$
+      000026 1F               [12]  787 	dec	r7
+      000027                        788 00159$:
+      000027 80 1C            [24]  789 	sjmp	00109$
+      000029                        790 00108$:
+                                    791 ;	main.c:49: else if (~FEEDBACK_PIN && current_duty < 100) current_duty++;
+      000029 A2 A4            [12]  792 	mov	c,_P24
+      00002B E4               [12]  793 	clr	a
+      00002C 33               [12]  794 	rlc	a
+      00002D 7D 00            [12]  795 	mov	r5,#0x00
+      00002F F4               [12]  796 	cpl	a
+      000030 FC               [12]  797 	mov	r4,a
+      000031 ED               [12]  798 	mov	a,r5
+      000032 F4               [12]  799 	cpl	a
+      000033 FD               [12]  800 	mov	r5,a
+      000034 4C               [12]  801 	orl	a,r4
+      000035 60 0E            [24]  802 	jz	00109$
+      000037 C3               [12]  803 	clr	c
+      000038 EE               [12]  804 	mov	a,r6
+      000039 94 64            [12]  805 	subb	a,#0x64
+      00003B EF               [12]  806 	mov	a,r7
+      00003C 94 00            [12]  807 	subb	a,#0x00
+      00003E 50 05            [24]  808 	jnc	00109$
+      000040 0E               [12]  809 	inc	r6
+      000041 BE 00 01         [24]  810 	cjne	r6,#0x00,00162$
+      000044 0F               [12]  811 	inc	r7
+      000045                        812 00162$:
+      000045                        813 00109$:
+                                    814 ;	main.c:51: set_duty(current_duty);
+      000045 8E 82            [24]  815 	mov	dpl,r6
+      000047 8F 83            [24]  816 	mov	dph,r7
+      000049 C0 07            [24]  817 	push	ar7
+      00004B C0 06            [24]  818 	push	ar6
+      00004D 12r00r78         [24]  819 	lcall	_set_duty
+      000050 D0 06            [24]  820 	pop	ar6
+      000052 D0 07            [24]  821 	pop	ar7
+                                    822 ;	main.c:54: }
+      000054 80 C2            [24]  823 	sjmp	00111$
+                                    824 ;------------------------------------------------------------
+                                    825 ;Allocation info for local variables in function 'setup_pwm'
+                                    826 ;------------------------------------------------------------
+                                    827 ;	main.c:58: void setup_pwm(void) {
+                                    828 ;	-----------------------------------------
+                                    829 ;	 function setup_pwm
+                                    830 ;	-----------------------------------------
+      000056                        831 _setup_pwm:
+                                    832 ;	main.c:59: CMOD = 0x02; // PCA uses SYSCLK/2 as clock source 
+      000056 75 D9 02         [24]  833 	mov	_CMOD,#0x02
+                                    834 ;	main.c:62: PCAPWM0 = 0x00; // Set to CL only mode for assurance and cleared the reserved as per datasheet
+      000059 75 F2 00         [24]  835 	mov	_PCAPWM0,#0x00
+                                    836 ;	main.c:63: CL = 0x00;   // Clear PCA low byte counter
+      00005C 75 E9 00         [24]  837 	mov	_CL,#0x00
+                                    838 ;	main.c:64: CH = 0x00;   // Clear PCA high byte counter
+      00005F 75 F9 00         [24]  839 	mov	_CH,#0x00
+                                    840 ;	main.c:66: CL = RELOAD_VALUE & 0xFF;     // Set low byte of value
+      000062 75 E9 88         [24]  841 	mov	_CL,#0x88
+                                    842 ;	main.c:67: CH = (RELOAD_VALUE >> 8) & 0xFF; // Set high byte of  value
+      000065 75 F9 00         [24]  843 	mov	_CH,#0x00
+                                    844 ;	main.c:68: CLRL = RELOAD_VALUE & 0xFF;     // Set low byte of reload value
+      000068 75 CE 88         [24]  845 	mov	_CLRL,#0x88
+                                    846 ;	main.c:69: CHRL = ( RELOAD_VALUE >> 8) & 0xFF; // Set high byte of reload value
+      00006B 75 CF 00         [24]  847 	mov	_CHRL,#0x00
+                                    848 ;	main.c:72: set_duty(50);  
+      00006E 90 00 32         [24]  849 	mov	dptr,#0x0032
+      000071 12r00r78         [24]  850 	lcall	_set_duty
+                                    851 ;	main.c:74: CCAPM0 = 0x42; // Enable PWM mode for PCA Module 0 by setting the bit 1 or PWM0
+      000074 75 DA 42         [24]  852 	mov	_CCAPM0,#0x42
+                                    853 ;	main.c:76: }
+      000077 22               [24]  854 	ret
+                                    855 ;------------------------------------------------------------
+                                    856 ;Allocation info for local variables in function 'set_duty'
+                                    857 ;------------------------------------------------------------
+                                    858 ;duty                      Allocated to registers 
+                                    859 ;T                         Allocated to registers 
+                                    860 ;duty_counts               Allocated to registers r6 r7 
+                                    861 ;duty_threshold            Allocated to registers r6 r7 
+                                    862 ;------------------------------------------------------------
+                                    863 ;	main.c:79: void set_duty(unsigned int duty){
+                                    864 ;	-----------------------------------------
+                                    865 ;	 function set_duty
+                                    866 ;	-----------------------------------------
+      000078                        867 _set_duty:
+      000078 85 82*00         [24]  868 	mov	__mulint_PARM_2,dpl
+      00007B 85 83*01         [24]  869 	mov	(__mulint_PARM_2 + 1),dph
+                                    870 ;	main.c:83: unsigned int duty_counts = (T * duty) / 100;
+      00007E 90 00 78         [24]  871 	mov	dptr,#0x0078
+      000081 12r00r00         [24]  872 	lcall	__mulint
+      000084 75*00 64         [24]  873 	mov	__divuint_PARM_2,#0x64
+      000087 75*01 00         [24]  874 	mov	(__divuint_PARM_2 + 1),#0x00
+      00008A 12r00r00         [24]  875 	lcall	__divuint
+      00008D AE 82            [24]  876 	mov	r6,dpl
+      00008F AF 83            [24]  877 	mov	r7,dph
+                                    878 ;	main.c:84: unsigned int duty_threshold = RELOAD_VALUE + (T - duty_counts);
+      000091 74 78            [12]  879 	mov	a,#0x78
+      000093 C3               [12]  880 	clr	c
+      000094 9E               [12]  881 	subb	a,r6
+      000095 FE               [12]  882 	mov	r6,a
+      000096 E4               [12]  883 	clr	a
+      000097 9F               [12]  884 	subb	a,r7
+      000098 FF               [12]  885 	mov	r7,a
+      000099 74 88            [12]  886 	mov	a,#0x88
+      00009B 2E               [12]  887 	add	a,r6
+      00009C FE               [12]  888 	mov	r6,a
+      00009D E4               [12]  889 	clr	a
+      00009E 3F               [12]  890 	addc	a,r7
+                                    891 ;	main.c:86: if(!CR) CCAP0L = duty_threshold; // Check if its initial case if yes directly set the control reg
+      00009F 20 DE 02         [24]  892 	jb	_CR,00102$
+      0000A2 8E EA            [24]  893 	mov	_CCAP0L,r6
+      0000A4                        894 00102$:
+                                    895 ;	main.c:87: CCAP0H = duty_threshold; // If not initial update reload register
+      0000A4 8E FA            [24]  896 	mov	_CCAP0H,r6
+                                    897 ;	main.c:88: }
+      0000A6 22               [24]  898 	ret
+                                    899 ;------------------------------------------------------------
+                                    900 ;Allocation info for local variables in function 'gpio_init'
+                                    901 ;------------------------------------------------------------
+                                    902 ;	main.c:91: void gpio_init(void){   
+                                    903 ;	-----------------------------------------
+                                    904 ;	 function gpio_init
+                                    905 ;	-----------------------------------------
+      0000A7                        906 _gpio_init:
+                                    907 ;	main.c:93: P2M0 |= (1<<2);
+      0000A7 43 95 04         [24]  908 	orl	_P2M0,#0x04
+                                    909 ;	main.c:94: P2M1 &= ~(1<<2); 
+      0000AA 53 92 FB         [24]  910 	anl	_P2M1,#0xfb
+                                    911 ;	main.c:97: P1M0 |= (1<<5);
+      0000AD 43 91 20         [24]  912 	orl	_P1M0,#0x20
+                                    913 ;	main.c:98: P1M1 &= ~(1<<5);
+      0000B0 53 92 DF         [24]  914 	anl	_P1M1,#0xdf
+                                    915 ;	main.c:101: P1M1 &= ~(1<<7); 
+      0000B3 53 92 7F         [24]  916 	anl	_P1M1,#0x7f
+                                    917 ;	main.c:104: P2M1 &= ~(1<<4);
+      0000B6 53 92 EF         [24]  918 	anl	_P2M1,#0xef
+                                    919 ;	main.c:105: }
+      0000B9 22               [24]  920 	ret
+                                    921 	.area CSEG    (CODE)
+                                    922 	.area CONST   (CODE)
+                                    923 	.area XINIT   (CODE)
+                                    924 	.area CABS    (ABS,CODE)
