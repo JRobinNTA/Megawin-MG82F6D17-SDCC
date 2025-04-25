@@ -11,6 +11,38 @@ as the default is enabled
 Looked for a widely used MCU to confirm seems like this is the right port
 
 # P2.2 HAS TO BE THE PWM OUTPUT
-# P1.5 IS THE LED OUTPUT
-# P1.7 IS THE ON OFF SWITCH
+# P1.6 IS THE LED OUTPUT
+# P1.0 IS THE ON OFF SWITCH
 # P2.4 IS THE FEEDBACK IN
+
+How to implement the button logic ??
+run the button_check() and it will set the corresponding action and start a 2 second timer and exit the timer 
+ALL of our button functions corresponds to atleast a 2 second delay ie 1 press in a 2 second window double press in a two second window
+So once the timer overflows after two seconds and no presses are detected in this window then single press if a press is detected then
+double press if the button reads the same active low signal throughout then pressed and held 
+make the timer an interrupt and also the button press an interrupt and at the event of either interrupt triggering the action can be 
+set according to which occurs first ie if the button is pressed again then the button interrupt is triggered and since the timer value
+in the register has not overflowed yet the action register is double press if the timer is overflown first the action is single press
+Now the only issue is how to read button held status yeah maybe if i read the button state at the point of the timer overflow and it 
+still reads the same active low then i can set action as button_held
+But what if the button was only pressed at that instant?? this case shouldnt matter because the time of the button checking is too low
+that it is technically impossible for a human to press right after timer overflow.
+
+THE AUXR8 is the pin select for the KBIN0 a prospective button interrupt
+
+THE KBI0 should do the trick
+
+KBMASK Decides which interrupts to consider
+KBPATN is the compared value so this register can be continously varied according to our needs for the button check
+KBIF flag is the interrupt flag in the KBCON register
+TO enable the interrupt set EKBI bit in EIE1 registe and EA = 1
+PATN_SEL bit determines if the comparison is equal to or not equal to
+
+AHHHH the switch pin is p6.0 which has no keypad input ok so no button interrupt go for a different logic
+
+OK so now we are left with only the timer interrupt which i can use to poll the button every 10ms at every poll check for the button
+state if the button remains pressed after every 10ms
+
+To write the interrupt for timer1:
+The interrupt number for timer1 is 3
+we will run timer1 in mod1

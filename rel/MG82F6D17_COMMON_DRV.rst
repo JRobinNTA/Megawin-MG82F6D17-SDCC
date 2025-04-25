@@ -650,8 +650,8 @@
                                     650 ; overlayable items in internal ram 
                                     651 ;--------------------------------------------------------
                                     652 	.area	OSEG    (OVR,DATA)
-      000030                        653 _DRV_PageP_Write_PARM_2:
-      000030                        654 	.ds 1
+      00003B                        653 _DRV_PageP_Write_PARM_2:
+      00003B                        654 	.ds 1
                                     655 	.area	OSEG    (OVR,DATA)
                                     656 ;--------------------------------------------------------
                                     657 ; indirectly addressable internal ram data
@@ -718,7 +718,7 @@
                                     718 ;	-----------------------------------------
                                     719 ;	 function DRV_PageP_Write
                                     720 ;	-----------------------------------------
-      00011C                        721 _DRV_PageP_Write:
+      0002F1                        721 _DRV_PageP_Write:
                            000007   722 	ar7 = 0x07
                            000006   723 	ar6 = 0x06
                            000005   724 	ar5 = 0x05
@@ -727,27 +727,27 @@
                            000002   727 	ar2 = 0x02
                            000001   728 	ar1 = 0x01
                            000000   729 	ar0 = 0x00
-      00011C AF 82            [24]  730 	mov	r7,dpl
+      0002F1 AF 82            [24]  730 	mov	r7,dpl
                                     731 ;	driver/source/MG82F6D17_COMMON_DRV.c:34: ISPCR |= ISPEN;
-      00011E 43 E7 80         [24]  732 	orl	_ISPCR,#0x80
+      0002F3 43 E7 80         [24]  732 	orl	_ISPCR,#0x80
                                     733 ;	driver/source/MG82F6D17_COMMON_DRV.c:35: IFMT = IFMT_PAGE_P_WRITE;
-      000121 75 E5 04         [24]  734 	mov	_IFMT,#0x04
+      0002F6 75 E5 04         [24]  734 	mov	_IFMT,#0x04
                                     735 ;	driver/source/MG82F6D17_COMMON_DRV.c:36: IFADRH = 0;
-      000124 75 E3 00         [24]  736 	mov	_IFADRH,#0x00
+      0002F9 75 E3 00         [24]  736 	mov	_IFADRH,#0x00
                                     737 ;	driver/source/MG82F6D17_COMMON_DRV.c:37: IFADRL = ADDR;
-      000127 8F E4            [24]  738 	mov	_IFADRL,r7
+      0002FC 8F E4            [24]  738 	mov	_IFADRL,r7
                                     739 ;	driver/source/MG82F6D17_COMMON_DRV.c:38: IFD = DATA;
-      000129 85 30 E2         [24]  740 	mov	_IFD,_DRV_PageP_Write_PARM_2
+      0002FE 85 3B E2         [24]  740 	mov	_IFD,_DRV_PageP_Write_PARM_2
                                     741 ;	driver/source/MG82F6D17_COMMON_DRV.c:39: SCMD = 0x46;
-      00012C 75 E6 46         [24]  742 	mov	_SCMD,#0x46
+      000301 75 E6 46         [24]  742 	mov	_SCMD,#0x46
                                     743 ;	driver/source/MG82F6D17_COMMON_DRV.c:40: SCMD = 0xB9;
-      00012F 75 E6 B9         [24]  744 	mov	_SCMD,#0xb9
+      000304 75 E6 B9         [24]  744 	mov	_SCMD,#0xb9
                                     745 ;	driver/source/MG82F6D17_COMMON_DRV.c:41: IFMT = IFMT_STANDBY;
-      000132 75 E5 00         [24]  746 	mov	_IFMT,#0x00
+      000307 75 E5 00         [24]  746 	mov	_IFMT,#0x00
                                     747 ;	driver/source/MG82F6D17_COMMON_DRV.c:42: ISPCR &= ~ISPEN;
-      000135 53 E7 7F         [24]  748 	anl	_ISPCR,#0x7f
+      00030A 53 E7 7F         [24]  748 	anl	_ISPCR,#0x7f
                                     749 ;	driver/source/MG82F6D17_COMMON_DRV.c:43: }
-      000138 22               [24]  750 	ret
+      00030D 22               [24]  750 	ret
                                     751 ;------------------------------------------------------------
                                     752 ;Allocation info for local variables in function 'DRV_PageP_Read'
                                     753 ;------------------------------------------------------------
@@ -757,28 +757,28 @@
                                     757 ;	-----------------------------------------
                                     758 ;	 function DRV_PageP_Read
                                     759 ;	-----------------------------------------
-      000139                        760 _DRV_PageP_Read:
-      000139 AF 82            [24]  761 	mov	r7,dpl
+      00030E                        760 _DRV_PageP_Read:
+      00030E AF 82            [24]  761 	mov	r7,dpl
                                     762 ;	driver/source/MG82F6D17_COMMON_DRV.c:47: ISPCR |= ISPEN;
-      00013B 43 E7 80         [24]  763 	orl	_ISPCR,#0x80
+      000310 43 E7 80         [24]  763 	orl	_ISPCR,#0x80
                                     764 ;	driver/source/MG82F6D17_COMMON_DRV.c:48: IFMT   = IFMT_PAGE_P_READ;
-      00013E 75 E5 05         [24]  765 	mov	_IFMT,#0x05
+      000313 75 E5 05         [24]  765 	mov	_IFMT,#0x05
                                     766 ;	driver/source/MG82F6D17_COMMON_DRV.c:49: IFADRH = 0;
-      000141 75 E3 00         [24]  767 	mov	_IFADRH,#0x00
+      000316 75 E3 00         [24]  767 	mov	_IFADRH,#0x00
                                     768 ;	driver/source/MG82F6D17_COMMON_DRV.c:50: IFADRL = ADDR;
-      000144 8F E4            [24]  769 	mov	_IFADRL,r7
+      000319 8F E4            [24]  769 	mov	_IFADRL,r7
                                     770 ;	driver/source/MG82F6D17_COMMON_DRV.c:51: SCMD   = 0x46;
-      000146 75 E6 46         [24]  771 	mov	_SCMD,#0x46
+      00031B 75 E6 46         [24]  771 	mov	_SCMD,#0x46
                                     772 ;	driver/source/MG82F6D17_COMMON_DRV.c:52: SCMD   = 0xB9;
-      000149 75 E6 B9         [24]  773 	mov	_SCMD,#0xb9
+      00031E 75 E6 B9         [24]  773 	mov	_SCMD,#0xb9
                                     774 ;	driver/source/MG82F6D17_COMMON_DRV.c:53: IFMT   = IFMT_STANDBY;
-      00014C 75 E5 00         [24]  775 	mov	_IFMT,#0x00
+      000321 75 E5 00         [24]  775 	mov	_IFMT,#0x00
                                     776 ;	driver/source/MG82F6D17_COMMON_DRV.c:54: ISPCR  &= ~ISPEN;
-      00014F 53 E7 7F         [24]  777 	anl	_ISPCR,#0x7f
+      000324 53 E7 7F         [24]  777 	anl	_ISPCR,#0x7f
                                     778 ;	driver/source/MG82F6D17_COMMON_DRV.c:55: return IFD;
-      000152 85 E2 82         [24]  779 	mov	dpl,_IFD
+      000327 85 E2 82         [24]  779 	mov	dpl,_IFD
                                     780 ;	driver/source/MG82F6D17_COMMON_DRV.c:56: }
-      000155 22               [24]  781 	ret
+      00032A 22               [24]  781 	ret
                                     782 	.area CSEG    (CODE)
                                     783 	.area CONST   (CODE)
                                     784 	.area XINIT   (CODE)
