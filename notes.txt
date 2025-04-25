@@ -11,9 +11,9 @@ as the default is enabled
 Looked for a widely used MCU to confirm seems like this is the right port
 
 # P2.2 HAS TO BE THE PWM OUTPUT
-# P1.6 IS THE LED OUTPUT
-# P1.0 IS THE ON OFF SWITCH
-# P2.4 IS THE FEEDBACK IN
+# P3.3 IS THE LED OUTPUT
+# P6.0 IS THE ON OFF SWITCH
+# P1.0 IS THE FEEDBACK IN
 
 How to implement the button logic ??
 run the button_check() and it will set the corresponding action and start a 2 second timer and exit the timer 
