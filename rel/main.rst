@@ -740,7 +740,7 @@
       00000C                        740 	.ds	7
       000013 32               [24]  741 	reti
       000014                        742 	.ds	7
-      00001B 02 02 16         [24]  743 	ljmp	_timer1_ISR
+      00001B 02 02 09         [24]  743 	ljmp	_timer1_ISR
                                     744 ;--------------------------------------------------------
                                     745 ; global & static initialisations
                                     746 ;--------------------------------------------------------
@@ -756,7 +756,7 @@
                                     756 	.globl __mcs51_genRAMCLEAR
                                     757 ;	main.c:49: machine_state mstate = OFF;
       00007A 75 30 01         [24]  758 	mov	_mstate,#0x01
-                                    759 ;	main.c:51: button_tells action = TOGGLE_OFF;
+                                    759 ;	main.c:51: volatile button_tells action = TOGGLE_OFF;
       00007D 75 31 01         [24]  760 	mov	_action,#0x01
                                     761 ;	main.c:53: unsigned int hold_count = 0;
       000080 E4               [12]  762 	clr	a
@@ -813,498 +813,489 @@
                            000001   813 	ar1 = 0x01
                            000000   814 	ar0 = 0x00
                                     815 ;	main.c:70: System_Init();
-      00009A 12 03 2B         [24]  816 	lcall	_System_Init
+      00009A 12 03 1E         [24]  816 	lcall	_System_Init
                                     817 ;	main.c:71: gpio_init(); // Init gpio
-      00009D 12 01 F0         [24]  818 	lcall	_gpio_init
+      00009D 12 01 E6         [24]  818 	lcall	_gpio_init
                                     819 ;	main.c:72: setup_pwm(); // Initialize PCA for PWM generation
-      0000A0 12 01 8B         [24]  820 	lcall	_setup_pwm
+      0000A0 12 01 81         [24]  820 	lcall	_setup_pwm
                                     821 ;	main.c:73: timer1_init(); // init the timer
-      0000A3 12 02 03         [24]  822 	lcall	_timer1_init
+      0000A3 12 01 F6         [24]  822 	lcall	_timer1_init
                                     823 ;	main.c:76: unsigned int current_duty = 50; //Set initial duty as 50% 
       0000A6 7E 32            [12]  824 	mov	r6,#0x32
       0000A8 7F 00            [12]  825 	mov	r7,#0x00
                                     826 ;	main.c:77: while (1) {
       0000AA                        827 00136$:
-                                    828 ;	main.c:78: switch(action){
-      0000AA E4               [12]  829 	clr	a
-      0000AB B5 31 02         [24]  830 	cjne	a,_action,00228$
-      0000AE 80 27            [24]  831 	sjmp	00105$
-      0000B0                        832 00228$:
-      0000B0 74 01            [12]  833 	mov	a,#0x01
-      0000B2 B5 31 02         [24]  834 	cjne	a,_action,00229$
-      0000B5 80 12            [24]  835 	sjmp	00101$
-      0000B7                        836 00229$:
-      0000B7 74 03            [12]  837 	mov	a,#0x03
-      0000B9 B5 31 02         [24]  838 	cjne	a,_action,00230$
-      0000BC 80 55            [24]  839 	sjmp	00116$
-      0000BE                        840 00230$:
-      0000BE 74 04            [12]  841 	mov	a,#0x04
-      0000C0 B5 31 03         [24]  842 	cjne	a,_action,00231$
-      0000C3 02 01 44         [24]  843 	ljmp	00122$
-      0000C6                        844 00231$:
-      0000C6 02 01 85         [24]  845 	ljmp	00133$
-                                    846 ;	main.c:80: case TOGGLE_OFF:
-      0000C9                        847 00101$:
-                                    848 ;	main.c:82: CR = 0x0; //turn off the PWM
+                                    828 ;	main.c:79: switch(action){
+      0000AA AD 31            [24]  829 	mov	r5,_action
+      0000AC BD 00 02         [24]  830 	cjne	r5,#0x00,00228$
+      0000AF 80 21            [24]  831 	sjmp	00105$
+      0000B1                        832 00228$:
+      0000B1 BD 01 02         [24]  833 	cjne	r5,#0x01,00229$
+      0000B4 80 0E            [24]  834 	sjmp	00101$
+      0000B6                        835 00229$:
+      0000B6 BD 03 02         [24]  836 	cjne	r5,#0x03,00230$
+      0000B9 80 53            [24]  837 	sjmp	00116$
+      0000BB                        838 00230$:
+      0000BB BD 04 03         [24]  839 	cjne	r5,#0x04,00231$
+      0000BE 02 01 3A         [24]  840 	ljmp	00122$
+      0000C1                        841 00231$:
+      0000C1 02 01 7B         [24]  842 	ljmp	00133$
+                                    843 ;	main.c:81: case TOGGLE_OFF:
+      0000C4                        844 00101$:
+                                    845 ;	main.c:83: CR = 0x0; //turn off the PWM
+                                    846 ;	assignBit
+      0000C4 C2 DE            [12]  847 	clr	_CR
+                                    848 ;	main.c:84: LED = 0x0; //turn off the LED
                                     849 ;	assignBit
-      0000C9 C2 DE            [12]  850 	clr	_CR
-                                    851 ;	main.c:83: LED = 0x0; //turn off the LED
-                                    852 ;	assignBit
-      0000CB C2 B3            [12]  853 	clr	_P33
-                                    854 ;	main.c:85: mstate = OFF;
-      0000CD 75 30 01         [24]  855 	mov	_mstate,#0x01
-                                    856 ;	main.c:86: while(action == DO_NOTHING){
-      0000D0                        857 00102$:
-      0000D0 74 02            [12]  858 	mov	a,#0x02
-      0000D2 B5 31 D5         [24]  859 	cjne	a,_action,00136$
-                                    860 ;	main.c:91: case TOGGLE_ON:
-      0000D5 80 F9            [24]  861 	sjmp	00102$
-      0000D7                        862 00105$:
-                                    863 ;	main.c:92: CR = 0x1; // Turn on the PWM
+      0000C6 C2 B3            [12]  850 	clr	_P33
+                                    851 ;	main.c:86: mstate = OFF;
+      0000C8 75 30 01         [24]  852 	mov	_mstate,#0x01
+                                    853 ;	main.c:87: while(action == DO_NOTHING){
+      0000CB                        854 00102$:
+      0000CB 74 02            [12]  855 	mov	a,#0x02
+      0000CD B5 31 DA         [24]  856 	cjne	a,_action,00136$
+                                    857 ;	main.c:93: case TOGGLE_ON:
+      0000D0 80 F9            [24]  858 	sjmp	00102$
+      0000D2                        859 00105$:
+                                    860 ;	main.c:94: CR = 0x1; // Turn on the PWM
+                                    861 ;	assignBit
+      0000D2 D2 DE            [12]  862 	setb	_CR
+                                    863 ;	main.c:95: LED = 0x1; // Turn on LED
                                     864 ;	assignBit
-      0000D7 D2 DE            [12]  865 	setb	_CR
-                                    866 ;	main.c:93: LED = 0x1; // Turn on LED
-                                    867 ;	assignBit
-      0000D9 D2 B3            [12]  868 	setb	_P33
-                                    869 ;	main.c:95: mstate = ON;
-      0000DB 75 30 00         [24]  870 	mov	_mstate,#0x00
-                                    871 ;	main.c:96: while(action == DO_NOTHING){
-      0000DE                        872 00113$:
-      0000DE 74 02            [12]  873 	mov	a,#0x02
-      0000E0 B5 31 C7         [24]  874 	cjne	a,_action,00136$
-                                    875 ;	main.c:98: if(FEEDBACK && current_duty > 0) current_duty--;
-      0000E3 30 90 0B         [24]  876 	jnb	_P10,00110$
-      0000E6 EE               [12]  877 	mov	a,r6
-      0000E7 4F               [12]  878 	orl	a,r7
-      0000E8 60 07            [24]  879 	jz	00110$
-      0000EA 1E               [12]  880 	dec	r6
-      0000EB BE FF 01         [24]  881 	cjne	r6,#0xff,00238$
-      0000EE 1F               [12]  882 	dec	r7
-      0000EF                        883 00238$:
-      0000EF 80 11            [24]  884 	sjmp	00111$
-      0000F1                        885 00110$:
-                                    886 ;	main.c:100: else if (!FEEDBACK && current_duty < 100) current_duty++;
-      0000F1 20 90 0E         [24]  887 	jb	_P10,00111$
-      0000F4 C3               [12]  888 	clr	c
-      0000F5 EE               [12]  889 	mov	a,r6
-      0000F6 94 64            [12]  890 	subb	a,#0x64
-      0000F8 EF               [12]  891 	mov	a,r7
-      0000F9 94 00            [12]  892 	subb	a,#0x00
-      0000FB 50 05            [24]  893 	jnc	00111$
-      0000FD 0E               [12]  894 	inc	r6
-      0000FE BE 00 01         [24]  895 	cjne	r6,#0x00,00241$
-      000101 0F               [12]  896 	inc	r7
-      000102                        897 00241$:
-      000102                        898 00111$:
-                                    899 ;	main.c:102: set_duty(current_duty);
-      000102 8E 82            [24]  900 	mov	dpl,r6
-      000104 8F 83            [24]  901 	mov	dph,r7
-      000106 C0 07            [24]  902 	push	ar7
-      000108 C0 06            [24]  903 	push	ar6
-      00010A 12 01 B3         [24]  904 	lcall	_set_duty
-      00010D D0 06            [24]  905 	pop	ar6
-      00010F D0 07            [24]  906 	pop	ar7
-                                    907 ;	main.c:107: case DUTY_HALF:
-      000111 80 CB            [24]  908 	sjmp	00113$
-      000113                        909 00116$:
-                                    910 ;	main.c:108: current_duty = 50;
-      000113 7E 32            [12]  911 	mov	r6,#0x32
-      000115 7F 00            [12]  912 	mov	r7,#0x00
-                                    913 ;	main.c:109: mstate = ON;
-                                    914 ;	1-genFromRTrack replaced	mov	_mstate,#0x00
-      000117 8F 30            [24]  915 	mov	_mstate,r7
-                                    916 ;	main.c:110: while(action == DO_NOTHING){
-      000119                        917 00119$:
-      000119 74 02            [12]  918 	mov	a,#0x02
-      00011B B5 31 02         [24]  919 	cjne	a,_action,00242$
-      00011E 80 03            [24]  920 	sjmp	00243$
-      000120                        921 00242$:
-      000120 02 00 AA         [24]  922 	ljmp	00136$
-      000123                        923 00243$:
-                                    924 ;	main.c:112: if(run_duty!=50) run_duty = set_duty(current_duty);
-      000123 74 32            [12]  925 	mov	a,#0x32
-      000125 B5 38 06         [24]  926 	cjne	a,_run_duty,00244$
-      000128 E4               [12]  927 	clr	a
-      000129 B5 39 02         [24]  928 	cjne	a,(_run_duty + 1),00244$
-      00012C 80 EB            [24]  929 	sjmp	00119$
-      00012E                        930 00244$:
-      00012E 90 00 32         [24]  931 	mov	dptr,#0x0032
-      000131 C0 07            [24]  932 	push	ar7
-      000133 C0 06            [24]  933 	push	ar6
-      000135 12 01 B3         [24]  934 	lcall	_set_duty
-      000138 85 82 38         [24]  935 	mov	_run_duty,dpl
-      00013B 85 83 39         [24]  936 	mov	(_run_duty + 1),dph
-      00013E D0 06            [24]  937 	pop	ar6
-      000140 D0 07            [24]  938 	pop	ar7
-                                    939 ;	main.c:118: case TRACK_OUT:
-      000142 80 D5            [24]  940 	sjmp	00119$
-      000144                        941 00122$:
-                                    942 ;	main.c:119: CR = 0x1; // Turn on the PWM
-                                    943 ;	assignBit
-      000144 D2 DE            [12]  944 	setb	_CR
-                                    945 ;	main.c:120: LED = 0x1; // Turn on LED
-                                    946 ;	assignBit
-      000146 D2 B3            [12]  947 	setb	_P33
-                                    948 ;	main.c:122: mstate = ON;
-      000148 75 30 00         [24]  949 	mov	_mstate,#0x00
-                                    950 ;	main.c:123: while(action == DO_NOTHING){
-      00014B                        951 00130$:
-      00014B 74 02            [12]  952 	mov	a,#0x02
-      00014D B5 31 02         [24]  953 	cjne	a,_action,00245$
-      000150 80 03            [24]  954 	sjmp	00246$
-      000152                        955 00245$:
-      000152 02 00 AA         [24]  956 	ljmp	00136$
-      000155                        957 00246$:
-                                    958 ;	main.c:125: if(FEEDBACK && current_duty > 0) current_duty--;
-      000155 30 90 0B         [24]  959 	jnb	_P10,00127$
-      000158 EE               [12]  960 	mov	a,r6
-      000159 4F               [12]  961 	orl	a,r7
-      00015A 60 07            [24]  962 	jz	00127$
-      00015C 1E               [12]  963 	dec	r6
-      00015D BE FF 01         [24]  964 	cjne	r6,#0xff,00249$
-      000160 1F               [12]  965 	dec	r7
-      000161                        966 00249$:
-      000161 80 11            [24]  967 	sjmp	00128$
-      000163                        968 00127$:
-                                    969 ;	main.c:127: else if (!FEEDBACK && current_duty < 100) current_duty++;
-      000163 20 90 0E         [24]  970 	jb	_P10,00128$
-      000166 C3               [12]  971 	clr	c
-      000167 EE               [12]  972 	mov	a,r6
-      000168 94 64            [12]  973 	subb	a,#0x64
-      00016A EF               [12]  974 	mov	a,r7
-      00016B 94 00            [12]  975 	subb	a,#0x00
-      00016D 50 05            [24]  976 	jnc	00128$
-      00016F 0E               [12]  977 	inc	r6
-      000170 BE 00 01         [24]  978 	cjne	r6,#0x00,00252$
-      000173 0F               [12]  979 	inc	r7
-      000174                        980 00252$:
-      000174                        981 00128$:
-                                    982 ;	main.c:129: set_duty(current_duty);
-      000174 8E 82            [24]  983 	mov	dpl,r6
-      000176 8F 83            [24]  984 	mov	dph,r7
-      000178 C0 07            [24]  985 	push	ar7
-      00017A C0 06            [24]  986 	push	ar6
-      00017C 12 01 B3         [24]  987 	lcall	_set_duty
-      00017F D0 06            [24]  988 	pop	ar6
-      000181 D0 07            [24]  989 	pop	ar7
-                                    990 ;	main.c:134: default: 
-      000183 80 C6            [24]  991 	sjmp	00130$
-      000185                        992 00133$:
-                                    993 ;	main.c:135: action = TRACK_OUT;
-      000185 75 31 04         [24]  994 	mov	_action,#0x04
-                                    995 ;	main.c:137: }
-                                    996 ;	main.c:139: }
-      000188 02 00 AA         [24]  997 	ljmp	00136$
-                                    998 ;------------------------------------------------------------
-                                    999 ;Allocation info for local variables in function 'setup_pwm'
-                                   1000 ;------------------------------------------------------------
-                                   1001 ;	main.c:143: void setup_pwm(void) {
-                                   1002 ;	-----------------------------------------
-                                   1003 ;	 function setup_pwm
-                                   1004 ;	-----------------------------------------
-      00018B                       1005 _setup_pwm:
-                                   1006 ;	main.c:144: CMOD = 0x02; // PCA uses SYSCLK/2 as clock source 
-      00018B 75 D9 02         [24] 1007 	mov	_CMOD,#0x02
-                                   1008 ;	main.c:147: PCAPWM0 = 0x00; // Set to CL only mode for assurance and cleared the reserved as per datasheet
-      00018E 75 F2 00         [24] 1009 	mov	_PCAPWM0,#0x00
-                                   1010 ;	main.c:148: CL = 0x00;   // Clear PCA low byte counter
-      000191 75 E9 00         [24] 1011 	mov	_CL,#0x00
-                                   1012 ;	main.c:149: CH = 0x00;   // Clear PCA high byte counter
-      000194 75 F9 00         [24] 1013 	mov	_CH,#0x00
-                                   1014 ;	main.c:151: CLRL = RELOAD_VALUE & 0xFF;     // Set low byte of reload value
-      000197 75 CE 88         [24] 1015 	mov	_CLRL,#0x88
-                                   1016 ;	main.c:152: CHRL = ( RELOAD_VALUE >> 8) & 0xFF; // Set high byte of reload value
-      00019A 75 CF 00         [24] 1017 	mov	_CHRL,#0x00
-                                   1018 ;	main.c:154: CL = RELOAD_VALUE & 0xFF;     // Set low byte of value
-      00019D 75 E9 88         [24] 1019 	mov	_CL,#0x88
-                                   1020 ;	main.c:155: CH = (RELOAD_VALUE >> 8) & 0xFF; // Set high byte of  value
-      0001A0 75 F9 00         [24] 1021 	mov	_CH,#0x00
-                                   1022 ;	main.c:157: run_duty = set_duty(50);  
-      0001A3 90 00 32         [24] 1023 	mov	dptr,#0x0032
-      0001A6 12 01 B3         [24] 1024 	lcall	_set_duty
-      0001A9 85 82 38         [24] 1025 	mov	_run_duty,dpl
-      0001AC 85 83 39         [24] 1026 	mov	(_run_duty + 1),dph
-                                   1027 ;	main.c:159: CCAPM0 = 0x42; // Enable PWM mode for PCA Module 0 by setting the bit 1 or PWM0
-      0001AF 75 DA 42         [24] 1028 	mov	_CCAPM0,#0x42
-                                   1029 ;	main.c:161: }
-      0001B2 22               [24] 1030 	ret
+      0000D4 D2 B3            [12]  865 	setb	_P33
+                                    866 ;	main.c:97: mstate = ON;
+      0000D6 75 30 00         [24]  867 	mov	_mstate,#0x00
+                                    868 ;	main.c:98: while(action == DO_NOTHING){
+      0000D9                        869 00113$:
+      0000D9 74 02            [12]  870 	mov	a,#0x02
+      0000DB B5 31 CC         [24]  871 	cjne	a,_action,00136$
+                                    872 ;	main.c:100: if(FEEDBACK && current_duty > 0) current_duty--;
+      0000DE 30 90 0B         [24]  873 	jnb	_P10,00110$
+      0000E1 EE               [12]  874 	mov	a,r6
+      0000E2 4F               [12]  875 	orl	a,r7
+      0000E3 60 07            [24]  876 	jz	00110$
+      0000E5 1E               [12]  877 	dec	r6
+      0000E6 BE FF 01         [24]  878 	cjne	r6,#0xff,00238$
+      0000E9 1F               [12]  879 	dec	r7
+      0000EA                        880 00238$:
+      0000EA 80 11            [24]  881 	sjmp	00111$
+      0000EC                        882 00110$:
+                                    883 ;	main.c:102: else if (!FEEDBACK && current_duty < 100) current_duty++;
+      0000EC 20 90 0E         [24]  884 	jb	_P10,00111$
+      0000EF C3               [12]  885 	clr	c
+      0000F0 EE               [12]  886 	mov	a,r6
+      0000F1 94 64            [12]  887 	subb	a,#0x64
+      0000F3 EF               [12]  888 	mov	a,r7
+      0000F4 94 00            [12]  889 	subb	a,#0x00
+      0000F6 50 05            [24]  890 	jnc	00111$
+      0000F8 0E               [12]  891 	inc	r6
+      0000F9 BE 00 01         [24]  892 	cjne	r6,#0x00,00241$
+      0000FC 0F               [12]  893 	inc	r7
+      0000FD                        894 00241$:
+      0000FD                        895 00111$:
+                                    896 ;	main.c:104: set_duty(current_duty);
+      0000FD 8E 82            [24]  897 	mov	dpl,r6
+      0000FF 8F 83            [24]  898 	mov	dph,r7
+      000101 C0 07            [24]  899 	push	ar7
+      000103 C0 06            [24]  900 	push	ar6
+      000105 12 01 A9         [24]  901 	lcall	_set_duty
+      000108 D0 06            [24]  902 	pop	ar6
+      00010A D0 07            [24]  903 	pop	ar7
+                                    904 ;	main.c:109: case DUTY_HALF:
+      00010C 80 CB            [24]  905 	sjmp	00113$
+      00010E                        906 00116$:
+                                    907 ;	main.c:110: current_duty = 50;
+      00010E 7E 32            [12]  908 	mov	r6,#0x32
+      000110 7F 00            [12]  909 	mov	r7,#0x00
+                                    910 ;	main.c:111: mstate = ON;
+                                    911 ;	1-genFromRTrack replaced	mov	_mstate,#0x00
+      000112 8F 30            [24]  912 	mov	_mstate,r7
+                                    913 ;	main.c:112: while(action == DO_NOTHING){
+      000114                        914 00119$:
+      000114 74 02            [12]  915 	mov	a,#0x02
+      000116 B5 31 91         [24]  916 	cjne	a,_action,00136$
+                                    917 ;	main.c:114: if(run_duty!=50) run_duty = set_duty(current_duty); 
+      000119 74 32            [12]  918 	mov	a,#0x32
+      00011B B5 38 06         [24]  919 	cjne	a,_run_duty,00244$
+      00011E E4               [12]  920 	clr	a
+      00011F B5 39 02         [24]  921 	cjne	a,(_run_duty + 1),00244$
+      000122 80 F0            [24]  922 	sjmp	00119$
+      000124                        923 00244$:
+      000124 90 00 32         [24]  924 	mov	dptr,#0x0032
+      000127 C0 07            [24]  925 	push	ar7
+      000129 C0 06            [24]  926 	push	ar6
+      00012B 12 01 A9         [24]  927 	lcall	_set_duty
+      00012E 85 82 38         [24]  928 	mov	_run_duty,dpl
+      000131 85 83 39         [24]  929 	mov	(_run_duty + 1),dph
+      000134 D0 06            [24]  930 	pop	ar6
+      000136 D0 07            [24]  931 	pop	ar7
+                                    932 ;	main.c:118: case TRACK_OUT:
+      000138 80 DA            [24]  933 	sjmp	00119$
+      00013A                        934 00122$:
+                                    935 ;	main.c:119: CR = 0x1; // Turn on the PWM
+                                    936 ;	assignBit
+      00013A D2 DE            [12]  937 	setb	_CR
+                                    938 ;	main.c:120: LED = 0x1; // Turn on LED
+                                    939 ;	assignBit
+      00013C D2 B3            [12]  940 	setb	_P33
+                                    941 ;	main.c:122: mstate = ON;
+      00013E 75 30 00         [24]  942 	mov	_mstate,#0x00
+                                    943 ;	main.c:123: while(action == DO_NOTHING){
+      000141                        944 00130$:
+      000141 74 02            [12]  945 	mov	a,#0x02
+      000143 B5 31 02         [24]  946 	cjne	a,_action,00245$
+      000146 80 03            [24]  947 	sjmp	00246$
+      000148                        948 00245$:
+      000148 02 00 AA         [24]  949 	ljmp	00136$
+      00014B                        950 00246$:
+                                    951 ;	main.c:125: if(FEEDBACK && current_duty > 0) current_duty--;
+      00014B 30 90 0B         [24]  952 	jnb	_P10,00127$
+      00014E EE               [12]  953 	mov	a,r6
+      00014F 4F               [12]  954 	orl	a,r7
+      000150 60 07            [24]  955 	jz	00127$
+      000152 1E               [12]  956 	dec	r6
+      000153 BE FF 01         [24]  957 	cjne	r6,#0xff,00249$
+      000156 1F               [12]  958 	dec	r7
+      000157                        959 00249$:
+      000157 80 11            [24]  960 	sjmp	00128$
+      000159                        961 00127$:
+                                    962 ;	main.c:127: else if (!FEEDBACK && current_duty < 100) current_duty++;
+      000159 20 90 0E         [24]  963 	jb	_P10,00128$
+      00015C C3               [12]  964 	clr	c
+      00015D EE               [12]  965 	mov	a,r6
+      00015E 94 64            [12]  966 	subb	a,#0x64
+      000160 EF               [12]  967 	mov	a,r7
+      000161 94 00            [12]  968 	subb	a,#0x00
+      000163 50 05            [24]  969 	jnc	00128$
+      000165 0E               [12]  970 	inc	r6
+      000166 BE 00 01         [24]  971 	cjne	r6,#0x00,00252$
+      000169 0F               [12]  972 	inc	r7
+      00016A                        973 00252$:
+      00016A                        974 00128$:
+                                    975 ;	main.c:129: set_duty(current_duty);
+      00016A 8E 82            [24]  976 	mov	dpl,r6
+      00016C 8F 83            [24]  977 	mov	dph,r7
+      00016E C0 07            [24]  978 	push	ar7
+      000170 C0 06            [24]  979 	push	ar6
+      000172 12 01 A9         [24]  980 	lcall	_set_duty
+      000175 D0 06            [24]  981 	pop	ar6
+      000177 D0 07            [24]  982 	pop	ar7
+                                    983 ;	main.c:134: default: 
+      000179 80 C6            [24]  984 	sjmp	00130$
+      00017B                        985 00133$:
+                                    986 ;	main.c:135: action = TRACK_OUT;
+      00017B 75 31 04         [24]  987 	mov	_action,#0x04
+                                    988 ;	main.c:137: }
+                                    989 ;	main.c:139: }
+      00017E 02 00 AA         [24]  990 	ljmp	00136$
+                                    991 ;------------------------------------------------------------
+                                    992 ;Allocation info for local variables in function 'setup_pwm'
+                                    993 ;------------------------------------------------------------
+                                    994 ;	main.c:143: void setup_pwm(void) {
+                                    995 ;	-----------------------------------------
+                                    996 ;	 function setup_pwm
+                                    997 ;	-----------------------------------------
+      000181                        998 _setup_pwm:
+                                    999 ;	main.c:144: CMOD = 0x02; // PCA uses SYSCLK/2 as clock source 
+      000181 75 D9 02         [24] 1000 	mov	_CMOD,#0x02
+                                   1001 ;	main.c:147: PCAPWM0 = 0x00; // Set to CL only mode for assurance and cleared the reserved as per datasheet
+      000184 75 F2 00         [24] 1002 	mov	_PCAPWM0,#0x00
+                                   1003 ;	main.c:148: CL = 0x00;   // Clear PCA low byte counter
+      000187 75 E9 00         [24] 1004 	mov	_CL,#0x00
+                                   1005 ;	main.c:149: CH = 0x00;   // Clear PCA high byte counter
+      00018A 75 F9 00         [24] 1006 	mov	_CH,#0x00
+                                   1007 ;	main.c:151: CLRL = RELOAD_VALUE & 0xFF;     // Set low byte of reload value
+      00018D 75 CE 88         [24] 1008 	mov	_CLRL,#0x88
+                                   1009 ;	main.c:152: CHRL = ( RELOAD_VALUE >> 8) & 0xFF; // Set high byte of reload value
+      000190 75 CF 00         [24] 1010 	mov	_CHRL,#0x00
+                                   1011 ;	main.c:154: CL = RELOAD_VALUE & 0xFF;     // Set low byte of value
+      000193 75 E9 88         [24] 1012 	mov	_CL,#0x88
+                                   1013 ;	main.c:155: CH = (RELOAD_VALUE >> 8) & 0xFF; // Set high byte of  value
+      000196 75 F9 00         [24] 1014 	mov	_CH,#0x00
+                                   1015 ;	main.c:157: run_duty = set_duty(50);  
+      000199 90 00 32         [24] 1016 	mov	dptr,#0x0032
+      00019C 12 01 A9         [24] 1017 	lcall	_set_duty
+      00019F 85 82 38         [24] 1018 	mov	_run_duty,dpl
+      0001A2 85 83 39         [24] 1019 	mov	(_run_duty + 1),dph
+                                   1020 ;	main.c:159: CCAPM0 = 0x42; // Enable PWM mode for PCA Module 0 by setting the bit 1 or PWM0
+      0001A5 75 DA 42         [24] 1021 	mov	_CCAPM0,#0x42
+                                   1022 ;	main.c:161: }
+      0001A8 22               [24] 1023 	ret
+                                   1024 ;------------------------------------------------------------
+                                   1025 ;Allocation info for local variables in function 'set_duty'
+                                   1026 ;------------------------------------------------------------
+                                   1027 ;duty                      Allocated to registers r6 r7 
+                                   1028 ;T                         Allocated to registers 
+                                   1029 ;duty_counts               Allocated to registers r4 r5 
+                                   1030 ;duty_threshold            Allocated to registers r4 r5 
                                    1031 ;------------------------------------------------------------
-                                   1032 ;Allocation info for local variables in function 'set_duty'
-                                   1033 ;------------------------------------------------------------
-                                   1034 ;duty                      Allocated to registers r6 r7 
-                                   1035 ;T                         Allocated to registers 
-                                   1036 ;duty_counts               Allocated to registers r4 r5 
-                                   1037 ;duty_threshold            Allocated to registers r4 r5 
-                                   1038 ;------------------------------------------------------------
-                                   1039 ;	main.c:164: int set_duty(unsigned int duty){
-                                   1040 ;	-----------------------------------------
-                                   1041 ;	 function set_duty
-                                   1042 ;	-----------------------------------------
-      0001B3                       1043 _set_duty:
-      0001B3 AE 82            [24] 1044 	mov	r6,dpl
-      0001B5 AF 83            [24] 1045 	mov	r7,dph
-                                   1046 ;	main.c:168: unsigned int duty_counts = (T * duty) / 100;
-      0001B7 8E 3B            [24] 1047 	mov	__mulint_PARM_2,r6
-      0001B9 8F 3C            [24] 1048 	mov	(__mulint_PARM_2 + 1),r7
-      0001BB 90 00 78         [24] 1049 	mov	dptr,#0x0078
-      0001BE C0 07            [24] 1050 	push	ar7
-      0001C0 C0 06            [24] 1051 	push	ar6
-      0001C2 12 04 57         [24] 1052 	lcall	__mulint
-      0001C5 75 3B 64         [24] 1053 	mov	__divuint_PARM_2,#0x64
-      0001C8 75 3C 00         [24] 1054 	mov	(__divuint_PARM_2 + 1),#0x00
-      0001CB 12 04 2E         [24] 1055 	lcall	__divuint
-      0001CE AC 82            [24] 1056 	mov	r4,dpl
-      0001D0 AD 83            [24] 1057 	mov	r5,dph
-      0001D2 D0 06            [24] 1058 	pop	ar6
-      0001D4 D0 07            [24] 1059 	pop	ar7
-                                   1060 ;	main.c:169: unsigned int duty_threshold = RELOAD_VALUE + (T - duty_counts);
-      0001D6 74 78            [12] 1061 	mov	a,#0x78
-      0001D8 C3               [12] 1062 	clr	c
-      0001D9 9C               [12] 1063 	subb	a,r4
-      0001DA FC               [12] 1064 	mov	r4,a
-      0001DB E4               [12] 1065 	clr	a
-      0001DC 9D               [12] 1066 	subb	a,r5
-      0001DD FD               [12] 1067 	mov	r5,a
-      0001DE 74 88            [12] 1068 	mov	a,#0x88
-      0001E0 2C               [12] 1069 	add	a,r4
-      0001E1 FC               [12] 1070 	mov	r4,a
-      0001E2 E4               [12] 1071 	clr	a
-      0001E3 3D               [12] 1072 	addc	a,r5
-                                   1073 ;	main.c:171: if(!CR) CCAP0L = duty_threshold; // Check if its initial case if yes directly set the control reg
-      0001E4 20 DE 02         [24] 1074 	jb	_CR,00102$
-      0001E7 8C EA            [24] 1075 	mov	_CCAP0L,r4
-      0001E9                       1076 00102$:
-                                   1077 ;	main.c:172: CCAP0H = duty_threshold; // If not initial update reload register
-      0001E9 8C FA            [24] 1078 	mov	_CCAP0H,r4
-                                   1079 ;	main.c:173: return duty;
-      0001EB 8E 82            [24] 1080 	mov	dpl,r6
-      0001ED 8F 83            [24] 1081 	mov	dph,r7
-                                   1082 ;	main.c:174: }
-      0001EF 22               [24] 1083 	ret
-                                   1084 ;------------------------------------------------------------
-                                   1085 ;Allocation info for local variables in function 'gpio_init'
-                                   1086 ;------------------------------------------------------------
-                                   1087 ;	main.c:177: void gpio_init(void){   
-                                   1088 ;	-----------------------------------------
-                                   1089 ;	 function gpio_init
-                                   1090 ;	-----------------------------------------
-      0001F0                       1091 _gpio_init:
-                                   1092 ;	main.c:179: P2M0 |= (1<<2);
-      0001F0 43 95 04         [24] 1093 	orl	_P2M0,#0x04
-                                   1094 ;	main.c:180: P2M1 &= ~(1<<2); 
-      0001F3 53 92 FB         [24] 1095 	anl	_P2M1,#0xfb
-                                   1096 ;	main.c:183: P1M0 |= (1<<6);
-      0001F6 43 91 40         [24] 1097 	orl	_P1M0,#0x40
-                                   1098 ;	main.c:184: P1M1 &= ~(1<<6);
-      0001F9 53 92 BF         [24] 1099 	anl	_P1M1,#0xbf
-                                   1100 ;	main.c:187: P1M1 &= ~(1<<7); 
-      0001FC 53 92 7F         [24] 1101 	anl	_P1M1,#0x7f
-                                   1102 ;	main.c:190: P2M1 &= ~(1<<4);
-      0001FF 53 92 EF         [24] 1103 	anl	_P2M1,#0xef
-                                   1104 ;	main.c:191: }
-      000202 22               [24] 1105 	ret
-                                   1106 ;------------------------------------------------------------
-                                   1107 ;Allocation info for local variables in function 'timer1_init'
-                                   1108 ;------------------------------------------------------------
-                                   1109 ;	main.c:193: void timer1_init(void){
-                                   1110 ;	-----------------------------------------
-                                   1111 ;	 function timer1_init
-                                   1112 ;	-----------------------------------------
-      000203                       1113 _timer1_init:
-                                   1114 ;	main.c:196: TMOD |= (5<<4); // enable the timer1 as 16 bit timer without auto reloaad the 5 or 101 is for prescaler 48 along with AUXR2
-      000203 43 89 50         [24] 1115 	orl	_TMOD,#0x50
-                                   1116 ;	main.c:197: AUXR2 |=(1<<3); // to set the timer clock as sysclock/48
-      000206 43 A3 08         [24] 1117 	orl	_AUXR2,#0x08
-                                   1118 ;	main.c:198: EA = 1; // enable global interrupts
-                                   1119 ;	assignBit
-      000209 D2 AF            [12] 1120 	setb	_EA
-                                   1121 ;	main.c:199: ET1 = 1; // enable timer1 interrupts
-                                   1122 ;	assignBit
-      00020B D2 AB            [12] 1123 	setb	_ET1
-                                   1124 ;	main.c:200: TL1 = 0x2C;
-      00020D 75 8B 2C         [24] 1125 	mov	_TL1,#0x2c
-                                   1126 ;	main.c:201: TH1 = 0xCF;
-      000210 75 8D CF         [24] 1127 	mov	_TH1,#0xcf
-                                   1128 ;	main.c:202: TR1 = 1; // turn on the timer1
-                                   1129 ;	assignBit
-      000213 D2 8E            [12] 1130 	setb	_TR1
-                                   1131 ;	main.c:203: }
-      000215 22               [24] 1132 	ret
-                                   1133 ;------------------------------------------------------------
-                                   1134 ;Allocation info for local variables in function 'timer1_ISR'
-                                   1135 ;------------------------------------------------------------
-                                   1136 ;	main.c:205: void timer1_ISR(void) __interrupt(3){
-                                   1137 ;	-----------------------------------------
-                                   1138 ;	 function timer1_ISR
-                                   1139 ;	-----------------------------------------
-      000216                       1140 _timer1_ISR:
-      000216 C0 E0            [24] 1141 	push	acc
-      000218 C0 D0            [24] 1142 	push	psw
-                                   1143 ;	main.c:206: TF1 = 0;          // Clear overflow flag
-                                   1144 ;	assignBit
-      00021A C2 8F            [12] 1145 	clr	_TF1
-                                   1146 ;	main.c:207: TH1 = 0xCF;       // Reload timer for next 50ms
-      00021C 75 8D CF         [24] 1147 	mov	_TH1,#0xcf
-                                   1148 ;	main.c:208: TL1 = 0x2C;
-      00021F 75 8B 2C         [24] 1149 	mov	_TL1,#0x2c
-                                   1150 ;	main.c:209: timer_count++;
-      000222 05 34            [12] 1151 	inc	_timer_count
-      000224 E4               [12] 1152 	clr	a
-      000225 B5 34 02         [24] 1153 	cjne	a,_timer_count,00190$
-      000228 05 35            [12] 1154 	inc	(_timer_count + 1)
-      00022A                       1155 00190$:
-                                   1156 ;	main.c:210: if (action == DUTY_HALF && timer_count == 20) LED = !LED;
-      00022A 74 03            [12] 1157 	mov	a,#0x03
-      00022C B5 31 0F         [24] 1158 	cjne	a,_action,00102$
-      00022F 74 14            [12] 1159 	mov	a,#0x14
-      000231 B5 34 06         [24] 1160 	cjne	a,_timer_count,00193$
-      000234 E4               [12] 1161 	clr	a
-      000235 B5 35 02         [24] 1162 	cjne	a,(_timer_count + 1),00193$
-      000238 80 02            [24] 1163 	sjmp	00194$
-      00023A                       1164 00193$:
-      00023A 80 02            [24] 1165 	sjmp	00102$
-      00023C                       1166 00194$:
-      00023C B2 B3            [12] 1167 	cpl	_P33
-      00023E                       1168 00102$:
-                                   1169 ;	main.c:211: __bit button = BUTTON;
-                                   1170 ;	assignBit
-      00023E A2 F8            [12] 1171 	mov	c,_P60
-                                   1172 ;	main.c:212: if(button == last_debounced){
-      000240 92 02            [24] 1173 	mov  _timer1_ISR_button_65537_52,c
-      000242 20 01 01         [24] 1174 	jb	_last_debounced,00195$
-      000245 B3               [12] 1175 	cpl	c
-      000246                       1176 00195$:
-      000246 50 04            [24] 1177 	jnc	00105$
-                                   1178 ;	main.c:213: debounce_counter++; 
-      000248 05 3A            [12] 1179 	inc	_debounce_counter
-      00024A 80 03            [24] 1180 	sjmp	00106$
-      00024C                       1181 00105$:
-                                   1182 ;	main.c:216: debounce_counter = 0;
-      00024C 75 3A 00         [24] 1183 	mov	_debounce_counter,#0x00
-      00024F                       1184 00106$:
-                                   1185 ;	main.c:218: if(debounce_counter >= DEBOUNCE_COUNT_THRESHOLD){
-      00024F 74 FE            [12] 1186 	mov	a,#0x100 - 0x02
-      000251 25 3A            [12] 1187 	add	a,_debounce_counter
-      000253 50 04            [24] 1188 	jnc	00108$
-                                   1189 ;	main.c:219: debounced = button;
-                                   1190 ;	assignBit
-      000255 A2 02            [12] 1191 	mov	c,_timer1_ISR_button_65537_52
-      000257 92 00            [24] 1192 	mov	_debounced,c
-      000259                       1193 00108$:
-                                   1194 ;	main.c:222: if(debounced == 0 && last_debounced == debounced){
-      000259 20 00 12         [24] 1195 	jb	_debounced,00112$
-      00025C A2 01            [12] 1196 	mov	c,_last_debounced
-      00025E 20 00 01         [24] 1197 	jb	_debounced,00199$
-      000261 B3               [12] 1198 	cpl	c
-      000262                       1199 00199$:
-      000262 50 0A            [24] 1200 	jnc	00112$
-                                   1201 ;	main.c:223: hold_count++;
-      000264 05 32            [12] 1202 	inc	_hold_count
-      000266 E4               [12] 1203 	clr	a
-      000267 B5 32 14         [24] 1204 	cjne	a,_hold_count,00113$
-      00026A 05 33            [12] 1205 	inc	(_hold_count + 1)
-      00026C 80 10            [24] 1206 	sjmp	00113$
-      00026E                       1207 00112$:
-                                   1208 ;	main.c:225: else if (last_debounced != debounced){
-      00026E A2 01            [12] 1209 	mov	c,_last_debounced
-      000270 20 00 01         [24] 1210 	jb	_debounced,00202$
-      000273 B3               [12] 1211 	cpl	c
-      000274                       1212 00202$:
-      000274 40 08            [24] 1213 	jc	00113$
-                                   1214 ;	main.c:226: toggle_count++;
-      000276 05 36            [12] 1215 	inc	_toggle_count
-      000278 E4               [12] 1216 	clr	a
-      000279 B5 36 02         [24] 1217 	cjne	a,_toggle_count,00204$
-      00027C 05 37            [12] 1218 	inc	(_toggle_count + 1)
-      00027E                       1219 00204$:
-      00027E                       1220 00113$:
-                                   1221 ;	main.c:228: if(timer_count == 40){
-      00027E 74 28            [12] 1222 	mov	a,#0x28
-      000280 B5 34 06         [24] 1223 	cjne	a,_timer_count,00205$
-      000283 E4               [12] 1224 	clr	a
-      000284 B5 35 02         [24] 1225 	cjne	a,(_timer_count + 1),00205$
-      000287 80 02            [24] 1226 	sjmp	00206$
-      000289                       1227 00205$:
-      000289 80 5D            [24] 1228 	sjmp	00131$
-      00028B                       1229 00206$:
-                                   1230 ;	main.c:230: if(hold_count >= 20){
-      00028B C3               [12] 1231 	clr	c
-      00028C E5 32            [12] 1232 	mov	a,_hold_count
-      00028E 94 14            [12] 1233 	subb	a,#0x14
-      000290 E5 33            [12] 1234 	mov	a,(_hold_count + 1)
-      000292 94 00            [12] 1235 	subb	a,#0x00
-      000294 40 0E            [24] 1236 	jc	00128$
-                                   1237 ;	main.c:231: if(mstate == ON) action = TOGGLE_OFF;
-      000296 E5 30            [12] 1238 	mov	a,_mstate
-      000298 70 05            [24] 1239 	jnz	00116$
-      00029A 75 31 01         [24] 1240 	mov	_action,#0x01
-      00029D 80 3C            [24] 1241 	sjmp	00129$
-      00029F                       1242 00116$:
-                                   1243 ;	main.c:232: else action = TOGGLE_ON;
-      00029F 75 31 00         [24] 1244 	mov	_action,#0x00
-      0002A2 80 37            [24] 1245 	sjmp	00129$
-      0002A4                       1246 00128$:
-                                   1247 ;	main.c:235: else if(toggle_count>=2 && toggle_count<=4){
-      0002A4 C3               [12] 1248 	clr	c
-      0002A5 E5 36            [12] 1249 	mov	a,_toggle_count
-      0002A7 94 02            [12] 1250 	subb	a,#0x02
-      0002A9 E5 37            [12] 1251 	mov	a,(_toggle_count + 1)
-      0002AB 94 00            [12] 1252 	subb	a,#0x00
-      0002AD 40 0E            [24] 1253 	jc	00124$
-      0002AF 74 04            [12] 1254 	mov	a,#0x04
-      0002B1 95 36            [12] 1255 	subb	a,_toggle_count
-      0002B3 E4               [12] 1256 	clr	a
-      0002B4 95 37            [12] 1257 	subb	a,(_toggle_count + 1)
-      0002B6 40 05            [24] 1258 	jc	00124$
-                                   1259 ;	main.c:236: action = DUTY_HALF;
-      0002B8 75 31 03         [24] 1260 	mov	_action,#0x03
-      0002BB 80 1E            [24] 1261 	sjmp	00129$
-      0002BD                       1262 00124$:
-                                   1263 ;	main.c:238: else if(toggle_count>=4){
-      0002BD C3               [12] 1264 	clr	c
-      0002BE E5 36            [12] 1265 	mov	a,_toggle_count
-      0002C0 94 04            [12] 1266 	subb	a,#0x04
-      0002C2 E5 37            [12] 1267 	mov	a,(_toggle_count + 1)
-      0002C4 94 00            [12] 1268 	subb	a,#0x00
-      0002C6 40 05            [24] 1269 	jc	00121$
-                                   1270 ;	main.c:239: action = TRACK_OUT;
-      0002C8 75 31 04         [24] 1271 	mov	_action,#0x04
-      0002CB 80 0E            [24] 1272 	sjmp	00129$
-      0002CD                       1273 00121$:
-                                   1274 ;	main.c:241: else if (hold_count<20){
-      0002CD C3               [12] 1275 	clr	c
-      0002CE E5 32            [12] 1276 	mov	a,_hold_count
-      0002D0 94 14            [12] 1277 	subb	a,#0x14
-      0002D2 E5 33            [12] 1278 	mov	a,(_hold_count + 1)
-      0002D4 94 00            [12] 1279 	subb	a,#0x00
-      0002D6 50 03            [24] 1280 	jnc	00129$
-                                   1281 ;	main.c:242: action = DO_NOTHING;
-      0002D8 75 31 02         [24] 1282 	mov	_action,#0x02
-      0002DB                       1283 00129$:
-                                   1284 ;	main.c:245: timer_count = 0;
-      0002DB E4               [12] 1285 	clr	a
-      0002DC F5 34            [12] 1286 	mov	_timer_count,a
-      0002DE F5 35            [12] 1287 	mov	(_timer_count + 1),a
-                                   1288 ;	main.c:246: toggle_count = 0;
-      0002E0 F5 36            [12] 1289 	mov	_toggle_count,a
-      0002E2 F5 37            [12] 1290 	mov	(_toggle_count + 1),a
-                                   1291 ;	main.c:247: hold_count = 0;
-      0002E4 F5 32            [12] 1292 	mov	_hold_count,a
-      0002E6 F5 33            [12] 1293 	mov	(_hold_count + 1),a
-      0002E8                       1294 00131$:
-                                   1295 ;	main.c:249: last_debounced = debounced;
-                                   1296 ;	assignBit
-      0002E8 A2 00            [12] 1297 	mov	c,_debounced
-      0002EA 92 01            [24] 1298 	mov	_last_debounced,c
-                                   1299 ;	main.c:250: } 
-      0002EC D0 D0            [24] 1300 	pop	psw
-      0002EE D0 E0            [24] 1301 	pop	acc
-      0002F0 32               [24] 1302 	reti
-                                   1303 ;	eliminated unneeded mov psw,# (no regs used in bank)
-                                   1304 ;	eliminated unneeded push/pop dpl
-                                   1305 ;	eliminated unneeded push/pop dph
-                                   1306 ;	eliminated unneeded push/pop b
-                                   1307 	.area CSEG    (CODE)
-                                   1308 	.area CONST   (CODE)
-                                   1309 	.area XINIT   (CODE)
-                                   1310 	.area CABS    (ABS,CODE)
+                                   1032 ;	main.c:164: int set_duty(unsigned int duty){
+                                   1033 ;	-----------------------------------------
+                                   1034 ;	 function set_duty
+                                   1035 ;	-----------------------------------------
+      0001A9                       1036 _set_duty:
+      0001A9 AE 82            [24] 1037 	mov	r6,dpl
+      0001AB AF 83            [24] 1038 	mov	r7,dph
+                                   1039 ;	main.c:168: unsigned int duty_counts = (T * duty) / 100;
+      0001AD 8E 3B            [24] 1040 	mov	__mulint_PARM_2,r6
+      0001AF 8F 3C            [24] 1041 	mov	(__mulint_PARM_2 + 1),r7
+      0001B1 90 00 78         [24] 1042 	mov	dptr,#0x0078
+      0001B4 C0 07            [24] 1043 	push	ar7
+      0001B6 C0 06            [24] 1044 	push	ar6
+      0001B8 12 04 4A         [24] 1045 	lcall	__mulint
+      0001BB 75 3B 64         [24] 1046 	mov	__divuint_PARM_2,#0x64
+      0001BE 75 3C 00         [24] 1047 	mov	(__divuint_PARM_2 + 1),#0x00
+      0001C1 12 04 21         [24] 1048 	lcall	__divuint
+      0001C4 AC 82            [24] 1049 	mov	r4,dpl
+      0001C6 AD 83            [24] 1050 	mov	r5,dph
+      0001C8 D0 06            [24] 1051 	pop	ar6
+      0001CA D0 07            [24] 1052 	pop	ar7
+                                   1053 ;	main.c:169: unsigned int duty_threshold = RELOAD_VALUE + (T - duty_counts);
+      0001CC 74 78            [12] 1054 	mov	a,#0x78
+      0001CE C3               [12] 1055 	clr	c
+      0001CF 9C               [12] 1056 	subb	a,r4
+      0001D0 FC               [12] 1057 	mov	r4,a
+      0001D1 E4               [12] 1058 	clr	a
+      0001D2 9D               [12] 1059 	subb	a,r5
+      0001D3 FD               [12] 1060 	mov	r5,a
+      0001D4 74 88            [12] 1061 	mov	a,#0x88
+      0001D6 2C               [12] 1062 	add	a,r4
+      0001D7 FC               [12] 1063 	mov	r4,a
+      0001D8 E4               [12] 1064 	clr	a
+      0001D9 3D               [12] 1065 	addc	a,r5
+                                   1066 ;	main.c:171: if(!CR) CCAP0L = duty_threshold; // Check if its initial case if yes directly set the control reg
+      0001DA 20 DE 02         [24] 1067 	jb	_CR,00102$
+      0001DD 8C EA            [24] 1068 	mov	_CCAP0L,r4
+      0001DF                       1069 00102$:
+                                   1070 ;	main.c:172: CCAP0H = duty_threshold; // If not initial update reload register
+      0001DF 8C FA            [24] 1071 	mov	_CCAP0H,r4
+                                   1072 ;	main.c:173: return duty;
+      0001E1 8E 82            [24] 1073 	mov	dpl,r6
+      0001E3 8F 83            [24] 1074 	mov	dph,r7
+                                   1075 ;	main.c:174: }
+      0001E5 22               [24] 1076 	ret
+                                   1077 ;------------------------------------------------------------
+                                   1078 ;Allocation info for local variables in function 'gpio_init'
+                                   1079 ;------------------------------------------------------------
+                                   1080 ;	main.c:177: void gpio_init(void){   
+                                   1081 ;	-----------------------------------------
+                                   1082 ;	 function gpio_init
+                                   1083 ;	-----------------------------------------
+      0001E6                       1084 _gpio_init:
+                                   1085 ;	main.c:179: P2M0 |= (1<<2);
+      0001E6 43 95 04         [24] 1086 	orl	_P2M0,#0x04
+                                   1087 ;	main.c:180: P2M1 &= ~(1<<2); 
+      0001E9 53 92 FB         [24] 1088 	anl	_P2M1,#0xfb
+                                   1089 ;	main.c:185: P3M1 |= (1<<3);
+      0001EC 43 B2 08         [24] 1090 	orl	_P3M1,#0x08
+                                   1091 ;	main.c:188: P6M1 &= ~(1<<0); 
+      0001EF 53 92 FE         [24] 1092 	anl	_P6M1,#0xfe
+                                   1093 ;	main.c:192: P1M1 &= ~(1<<0);
+      0001F2 53 92 FE         [24] 1094 	anl	_P1M1,#0xfe
+                                   1095 ;	main.c:193: }
+      0001F5 22               [24] 1096 	ret
+                                   1097 ;------------------------------------------------------------
+                                   1098 ;Allocation info for local variables in function 'timer1_init'
+                                   1099 ;------------------------------------------------------------
+                                   1100 ;	main.c:195: void timer1_init(void){
+                                   1101 ;	-----------------------------------------
+                                   1102 ;	 function timer1_init
+                                   1103 ;	-----------------------------------------
+      0001F6                       1104 _timer1_init:
+                                   1105 ;	main.c:198: TMOD |= (5<<4); // enable the timer1 as 16 bit timer without auto reloaad the 5 or 101 is for prescaler 48 along with AUXR2
+      0001F6 43 89 50         [24] 1106 	orl	_TMOD,#0x50
+                                   1107 ;	main.c:199: AUXR2 |=(1<<3); // to set the timer clock as sysclock/48
+      0001F9 43 A3 08         [24] 1108 	orl	_AUXR2,#0x08
+                                   1109 ;	main.c:200: EA = 1; // enable global interrupts
+                                   1110 ;	assignBit
+      0001FC D2 AF            [12] 1111 	setb	_EA
+                                   1112 ;	main.c:201: ET1 = 1; // enable timer1 interrupts
+                                   1113 ;	assignBit
+      0001FE D2 AB            [12] 1114 	setb	_ET1
+                                   1115 ;	main.c:202: TL1 = 0x2C;
+      000200 75 8B 2C         [24] 1116 	mov	_TL1,#0x2c
+                                   1117 ;	main.c:203: TH1 = 0xCF;
+      000203 75 8D CF         [24] 1118 	mov	_TH1,#0xcf
+                                   1119 ;	main.c:204: TR1 = 1; // turn on the timer1
+                                   1120 ;	assignBit
+      000206 D2 8E            [12] 1121 	setb	_TR1
+                                   1122 ;	main.c:205: }
+      000208 22               [24] 1123 	ret
+                                   1124 ;------------------------------------------------------------
+                                   1125 ;Allocation info for local variables in function 'timer1_ISR'
+                                   1126 ;------------------------------------------------------------
+                                   1127 ;	main.c:207: void timer1_ISR(void) __interrupt(3){
+                                   1128 ;	-----------------------------------------
+                                   1129 ;	 function timer1_ISR
+                                   1130 ;	-----------------------------------------
+      000209                       1131 _timer1_ISR:
+      000209 C0 E0            [24] 1132 	push	acc
+      00020B C0 D0            [24] 1133 	push	psw
+                                   1134 ;	main.c:208: TF1 = 0;          // Clear overflow flag
+                                   1135 ;	assignBit
+      00020D C2 8F            [12] 1136 	clr	_TF1
+                                   1137 ;	main.c:209: TH1 = 0xCF;       // Reload timer for next 50ms
+      00020F 75 8D CF         [24] 1138 	mov	_TH1,#0xcf
+                                   1139 ;	main.c:210: TL1 = 0x2C;
+      000212 75 8B 2C         [24] 1140 	mov	_TL1,#0x2c
+                                   1141 ;	main.c:211: timer_count++;
+      000215 05 34            [12] 1142 	inc	_timer_count
+      000217 E4               [12] 1143 	clr	a
+      000218 B5 34 02         [24] 1144 	cjne	a,_timer_count,00190$
+      00021B 05 35            [12] 1145 	inc	(_timer_count + 1)
+      00021D                       1146 00190$:
+                                   1147 ;	main.c:212: if (action == DUTY_HALF && timer_count == 20) LED = !LED; // just to toggle the led as an indicator for half_duty
+      00021D 74 03            [12] 1148 	mov	a,#0x03
+      00021F B5 31 0F         [24] 1149 	cjne	a,_action,00102$
+      000222 74 14            [12] 1150 	mov	a,#0x14
+      000224 B5 34 06         [24] 1151 	cjne	a,_timer_count,00193$
+      000227 E4               [12] 1152 	clr	a
+      000228 B5 35 02         [24] 1153 	cjne	a,(_timer_count + 1),00193$
+      00022B 80 02            [24] 1154 	sjmp	00194$
+      00022D                       1155 00193$:
+      00022D 80 02            [24] 1156 	sjmp	00102$
+      00022F                       1157 00194$:
+      00022F B2 B3            [12] 1158 	cpl	_P33
+      000231                       1159 00102$:
+                                   1160 ;	main.c:213: __bit button = BUTTON;
+                                   1161 ;	assignBit
+      000231 A2 F8            [12] 1162 	mov	c,_P60
+                                   1163 ;	main.c:215: if(button == last_debounced){
+      000233 92 02            [24] 1164 	mov  _timer1_ISR_button_65537_52,c
+      000235 20 01 01         [24] 1165 	jb	_last_debounced,00195$
+      000238 B3               [12] 1166 	cpl	c
+      000239                       1167 00195$:
+      000239 50 04            [24] 1168 	jnc	00105$
+                                   1169 ;	main.c:216: debounce_counter++; 
+      00023B 05 3A            [12] 1170 	inc	_debounce_counter
+      00023D 80 03            [24] 1171 	sjmp	00106$
+      00023F                       1172 00105$:
+                                   1173 ;	main.c:219: debounce_counter = 0;
+      00023F 75 3A 00         [24] 1174 	mov	_debounce_counter,#0x00
+      000242                       1175 00106$:
+                                   1176 ;	main.c:223: if(debounce_counter >= DEBOUNCE_COUNT_THRESHOLD){
+      000242 74 FE            [12] 1177 	mov	a,#0x100 - 0x02
+      000244 25 3A            [12] 1178 	add	a,_debounce_counter
+      000246 50 04            [24] 1179 	jnc	00108$
+                                   1180 ;	main.c:224: debounced = button;
+                                   1181 ;	assignBit
+      000248 A2 02            [12] 1182 	mov	c,_timer1_ISR_button_65537_52
+      00024A 92 00            [24] 1183 	mov	_debounced,c
+      00024C                       1184 00108$:
+                                   1185 ;	main.c:227: if(debounced == 0 && last_debounced == debounced){
+      00024C 20 00 12         [24] 1186 	jb	_debounced,00112$
+      00024F A2 01            [12] 1187 	mov	c,_last_debounced
+      000251 20 00 01         [24] 1188 	jb	_debounced,00199$
+      000254 B3               [12] 1189 	cpl	c
+      000255                       1190 00199$:
+      000255 50 0A            [24] 1191 	jnc	00112$
+                                   1192 ;	main.c:228: hold_count++;
+      000257 05 32            [12] 1193 	inc	_hold_count
+      000259 E4               [12] 1194 	clr	a
+      00025A B5 32 14         [24] 1195 	cjne	a,_hold_count,00113$
+      00025D 05 33            [12] 1196 	inc	(_hold_count + 1)
+      00025F 80 10            [24] 1197 	sjmp	00113$
+      000261                       1198 00112$:
+                                   1199 ;	main.c:231: else if (last_debounced != debounced){
+      000261 A2 01            [12] 1200 	mov	c,_last_debounced
+      000263 20 00 01         [24] 1201 	jb	_debounced,00202$
+      000266 B3               [12] 1202 	cpl	c
+      000267                       1203 00202$:
+      000267 40 08            [24] 1204 	jc	00113$
+                                   1205 ;	main.c:232: toggle_count++;
+      000269 05 36            [12] 1206 	inc	_toggle_count
+      00026B E4               [12] 1207 	clr	a
+      00026C B5 36 02         [24] 1208 	cjne	a,_toggle_count,00204$
+      00026F 05 37            [12] 1209 	inc	(_toggle_count + 1)
+      000271                       1210 00204$:
+      000271                       1211 00113$:
+                                   1212 ;	main.c:235: if(timer_count == 40){
+      000271 74 28            [12] 1213 	mov	a,#0x28
+      000273 B5 34 06         [24] 1214 	cjne	a,_timer_count,00205$
+      000276 E4               [12] 1215 	clr	a
+      000277 B5 35 02         [24] 1216 	cjne	a,(_timer_count + 1),00205$
+      00027A 80 02            [24] 1217 	sjmp	00206$
+      00027C                       1218 00205$:
+      00027C 80 5D            [24] 1219 	sjmp	00131$
+      00027E                       1220 00206$:
+                                   1221 ;	main.c:237: if(hold_count >= 20){
+      00027E C3               [12] 1222 	clr	c
+      00027F E5 32            [12] 1223 	mov	a,_hold_count
+      000281 94 14            [12] 1224 	subb	a,#0x14
+      000283 E5 33            [12] 1225 	mov	a,(_hold_count + 1)
+      000285 94 00            [12] 1226 	subb	a,#0x00
+      000287 40 0E            [24] 1227 	jc	00128$
+                                   1228 ;	main.c:238: if(mstate == ON) action = TOGGLE_OFF;
+      000289 E5 30            [12] 1229 	mov	a,_mstate
+      00028B 70 05            [24] 1230 	jnz	00116$
+      00028D 75 31 01         [24] 1231 	mov	_action,#0x01
+      000290 80 3C            [24] 1232 	sjmp	00129$
+      000292                       1233 00116$:
+                                   1234 ;	main.c:239: else action = TOGGLE_ON;
+      000292 75 31 00         [24] 1235 	mov	_action,#0x00
+      000295 80 37            [24] 1236 	sjmp	00129$
+      000297                       1237 00128$:
+                                   1238 ;	main.c:242: else if(toggle_count>=2 && toggle_count<=4){
+      000297 C3               [12] 1239 	clr	c
+      000298 E5 36            [12] 1240 	mov	a,_toggle_count
+      00029A 94 02            [12] 1241 	subb	a,#0x02
+      00029C E5 37            [12] 1242 	mov	a,(_toggle_count + 1)
+      00029E 94 00            [12] 1243 	subb	a,#0x00
+      0002A0 40 0E            [24] 1244 	jc	00124$
+      0002A2 74 04            [12] 1245 	mov	a,#0x04
+      0002A4 95 36            [12] 1246 	subb	a,_toggle_count
+      0002A6 E4               [12] 1247 	clr	a
+      0002A7 95 37            [12] 1248 	subb	a,(_toggle_count + 1)
+      0002A9 40 05            [24] 1249 	jc	00124$
+                                   1250 ;	main.c:243: action = DUTY_HALF;
+      0002AB 75 31 03         [24] 1251 	mov	_action,#0x03
+      0002AE 80 1E            [24] 1252 	sjmp	00129$
+      0002B0                       1253 00124$:
+                                   1254 ;	main.c:246: else if(toggle_count>=4){
+      0002B0 C3               [12] 1255 	clr	c
+      0002B1 E5 36            [12] 1256 	mov	a,_toggle_count
+      0002B3 94 04            [12] 1257 	subb	a,#0x04
+      0002B5 E5 37            [12] 1258 	mov	a,(_toggle_count + 1)
+      0002B7 94 00            [12] 1259 	subb	a,#0x00
+      0002B9 40 05            [24] 1260 	jc	00121$
+                                   1261 ;	main.c:247: action = TRACK_OUT;
+      0002BB 75 31 04         [24] 1262 	mov	_action,#0x04
+      0002BE 80 0E            [24] 1263 	sjmp	00129$
+      0002C0                       1264 00121$:
+                                   1265 ;	main.c:249: else if (hold_count<20){
+      0002C0 C3               [12] 1266 	clr	c
+      0002C1 E5 32            [12] 1267 	mov	a,_hold_count
+      0002C3 94 14            [12] 1268 	subb	a,#0x14
+      0002C5 E5 33            [12] 1269 	mov	a,(_hold_count + 1)
+      0002C7 94 00            [12] 1270 	subb	a,#0x00
+      0002C9 50 03            [24] 1271 	jnc	00129$
+                                   1272 ;	main.c:250: action = DO_NOTHING;
+      0002CB 75 31 02         [24] 1273 	mov	_action,#0x02
+      0002CE                       1274 00129$:
+                                   1275 ;	main.c:253: timer_count = 0;
+      0002CE E4               [12] 1276 	clr	a
+      0002CF F5 34            [12] 1277 	mov	_timer_count,a
+      0002D1 F5 35            [12] 1278 	mov	(_timer_count + 1),a
+                                   1279 ;	main.c:254: toggle_count = 0;
+      0002D3 F5 36            [12] 1280 	mov	_toggle_count,a
+      0002D5 F5 37            [12] 1281 	mov	(_toggle_count + 1),a
+                                   1282 ;	main.c:255: hold_count = 0;
+      0002D7 F5 32            [12] 1283 	mov	_hold_count,a
+      0002D9 F5 33            [12] 1284 	mov	(_hold_count + 1),a
+      0002DB                       1285 00131$:
+                                   1286 ;	main.c:257: last_debounced = debounced;
+                                   1287 ;	assignBit
+      0002DB A2 00            [12] 1288 	mov	c,_debounced
+      0002DD 92 01            [24] 1289 	mov	_last_debounced,c
+                                   1290 ;	main.c:258: } 
+      0002DF D0 D0            [24] 1291 	pop	psw
+      0002E1 D0 E0            [24] 1292 	pop	acc
+      0002E3 32               [24] 1293 	reti
+                                   1294 ;	eliminated unneeded mov psw,# (no regs used in bank)
+                                   1295 ;	eliminated unneeded push/pop dpl
+                                   1296 ;	eliminated unneeded push/pop dph
+                                   1297 ;	eliminated unneeded push/pop b
+                                   1298 	.area CSEG    (CODE)
+                                   1299 	.area CONST   (CODE)
+                                   1300 	.area XINIT   (CODE)
+                                   1301 	.area CABS    (ABS,CODE)

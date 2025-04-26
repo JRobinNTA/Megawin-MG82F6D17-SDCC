@@ -80,9 +80,9 @@ C:   00000097  s_GSFINAL
 C:   0000009A  s_CSEG                          
 C:   000000C3  l_SSEG                          
 C:   00000100  l_IRAM                          
-C:   000003DE  l_CSEG                          
-C:   00000478  s_CONST                         
-C:   00000478  s_XINIT                         
+C:   000003D1  l_CSEG                          
+C:   0000046B  s_CONST                         
+C:   0000046B  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -595,23 +595,23 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                0000009A    000003DE =         990. bytes (REL,CON,CODE)
+CSEG                                0000009A    000003D1 =         977. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   0000009A  _main                              main
-C:   0000018B  _setup_pwm                         main
-C:   000001B3  _set_duty                          main
-C:   000001F0  _gpio_init                         main
-C:   00000203  _timer1_init                       main
-C:   00000216  _timer1_ISR                        main
-C:   000002F1  _DRV_PageP_Write                   MG82F6D17_COMMON_DRV
-C:   0000030E  _DRV_PageP_Read                    MG82F6D17_COMMON_DRV
-C:   0000032B  _System_Init                       MG82F6D17_WIZARD
-C:   0000042E  __divuint                          _divuint
-C:   00000457  __mulint                           _mulint
-C:   00000457  __mulint_dummy                     _mulint
-C:   00000474  __sdcc_external_startup            _startup
+C:   00000181  _setup_pwm                         main
+C:   000001A9  _set_duty                          main
+C:   000001E6  _gpio_init                         main
+C:   000001F6  _timer1_init                       main
+C:   00000209  _timer1_ISR                        main
+C:   000002E4  _DRV_PageP_Write                   MG82F6D17_COMMON_DRV
+C:   00000301  _DRV_PageP_Read                    MG82F6D17_COMMON_DRV
+C:   0000031E  _System_Init                       MG82F6D17_WIZARD
+C:   00000421  __divuint                          _divuint
+C:   0000044A  __mulint                           _mulint
+C:   0000044A  __mulint_dummy                     _mulint
+C:   00000467  __sdcc_external_startup            _startup
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 23.
 

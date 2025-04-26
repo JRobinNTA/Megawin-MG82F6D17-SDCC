@@ -716,7 +716,7 @@
                                     716 ;	-----------------------------------------
                                     717 ;	 function System_Init
                                     718 ;	-----------------------------------------
-      00032B                        719 _System_Init:
+      00031E                        719 _System_Init:
                            000007   720 	ar7 = 0x07
                            000006   721 	ar6 = 0x06
                            000005   722 	ar5 = 0x05
@@ -726,106 +726,106 @@
                            000001   726 	ar1 = 0x01
                            000000   727 	ar0 = 0x00
                                     728 ;	driver/source/MG82F6D17_WIZARD.c:125: __DRV_GPIO_Wizard_Init();
-      00032B 75 82 48         [24]  729 	mov	dpl,#0x48
-      00032E 12 03 0E         [24]  730 	lcall	_DRV_PageP_Read
-      000331 E5 82            [12]  731 	mov	a,dpl
-      000333 54 DF            [12]  732 	anl	a,#0xdf
-      000335 F5 3B            [12]  733 	mov	_DRV_PageP_Write_PARM_2,a
-      000337 75 82 48         [24]  734 	mov	dpl,#0x48
-      00033A 12 02 F1         [24]  735 	lcall	_DRV_PageP_Write
-      00033D 75 82 48         [24]  736 	mov	dpl,#0x48
-      000340 12 03 0E         [24]  737 	lcall	_DRV_PageP_Read
-      000343 E5 82            [12]  738 	mov	a,dpl
-      000345 54 BF            [12]  739 	anl	a,#0xbf
-      000347 F5 3B            [12]  740 	mov	_DRV_PageP_Write_PARM_2,a
-      000349 75 82 48         [24]  741 	mov	dpl,#0x48
-      00034C 12 02 F1         [24]  742 	lcall	_DRV_PageP_Write
-      00034F 75 82 4C         [24]  743 	mov	dpl,#0x4c
-      000352 12 03 0E         [24]  744 	lcall	_DRV_PageP_Read
-      000355 75 82 4C         [24]  745 	mov	dpl,#0x4c
-      000358 12 03 0E         [24]  746 	lcall	_DRV_PageP_Read
-      00035B C0 AC            [24]  747 	push	_SFRPI 
-      00035D 75 AC 00         [24]  748 	mov	_SFRPI,#0x00
-      000360 53 95 EB         [24]  749 	anl	_P2M0,#0xeb
-      000363 85 95 95         [24]  750 	mov	_P2M0,_P2M0
-      000366 75 AC 01         [24]  751 	mov	_SFRPI,#0x01
-      000369 53 92 EB         [24]  752 	anl	_P2M1,#0xeb
-      00036C 43 92 14         [24]  753 	orl	_P2M1,#0x14
-      00036F D0 AC            [24]  754 	pop	_SFRPI 
-      000371 C0 AC            [24]  755 	push	_SFRPI 
-      000373 75 AC 00         [24]  756 	mov	_SFRPI,#0x00
-      000376 53 95 EB         [24]  757 	anl	_P2M0,#0xeb
-      000379 85 95 95         [24]  758 	mov	_P2M0,_P2M0
-      00037C 75 AC 01         [24]  759 	mov	_SFRPI,#0x01
-      00037F 53 92 EB         [24]  760 	anl	_P2M1,#0xeb
-      000382 43 92 14         [24]  761 	orl	_P2M1,#0x14
-      000385 D0 AC            [24]  762 	pop	_SFRPI 
-      000387 53 B1 FC         [24]  763 	anl	_P3M0,#0xfc
-      00038A 85 B1 B1         [24]  764 	mov	_P3M0,_P3M0
-      00038D 53 B2 FC         [24]  765 	anl	_P3M1,#0xfc
-      000390 43 B2 38         [24]  766 	orl	_P3M1,#0x38
-      000393 C0 AC            [24]  767 	push	_SFRPI 
-      000395 75 AC 00         [24]  768 	mov	_SFRPI,#0x00
-      000398 85 B3 B3         [24]  769 	mov	_P4M0,_P4M0
-      00039B 85 B3 B3         [24]  770 	mov	_P4M0,_P4M0
-      00039E 75 AC 02         [24]  771 	mov	_SFRPI,#0x02
-      0003A1 85 92 92         [24]  772 	mov	_P4M1,_P4M1
-      0003A4 43 92 01         [24]  773 	orl	_P4M1,#0x01
-      0003A7 D0 AC            [24]  774 	pop	_SFRPI 
-      0003A9 C0 AC            [24]  775 	push	_SFRPI 
-      0003AB 75 AC 01         [24]  776 	mov	_SFRPI,#0x01
-      0003AE 53 B5 FC         [24]  777 	anl	_P6M0,#0xfc
-      0003B1 85 B5 B5         [24]  778 	mov	_P6M0,_P6M0
-      0003B4 75 AC 03         [24]  779 	mov	_SFRPI,#0x03
-      0003B7 53 92 FC         [24]  780 	anl	_P6M1,#0xfc
-      0003BA 43 92 03         [24]  781 	orl	_P6M1,#0x03
-      0003BD D0 AC            [24]  782 	pop	_SFRPI 
-      0003BF C0 AC            [24]  783 	push	_SFRPI 
-      0003C1 75 AC 02         [24]  784 	mov	_SFRPI,#0x02
-      0003C4 43 B4 04         [24]  785 	orl	_PDRVC0,#0x04
-      0003C7 D0 AC            [24]  786 	pop	_SFRPI 
-      0003C9 C0 AC            [24]  787 	push	_SFRPI 
-      0003CB 75 AC 02         [24]  788 	mov	_SFRPI,#0x02
-      0003CE 43 B4 08         [24]  789 	orl	_PDRVC0,#0x08
-      0003D1 D0 AC            [24]  790 	pop	_SFRPI 
-      0003D3 C0 AC            [24]  791 	push	_SFRPI 
-      0003D5 75 AC 02         [24]  792 	mov	_SFRPI,#0x02
-      0003D8 43 B4 10         [24]  793 	orl	_PDRVC0,#0x10
-      0003DB D0 AC            [24]  794 	pop	_SFRPI 
-      0003DD C0 AC            [24]  795 	push	_SFRPI 
-      0003DF 75 AC 02         [24]  796 	mov	_SFRPI,#0x02
-      0003E2 43 B4 20         [24]  797 	orl	_PDRVC0,#0x20
-      0003E5 D0 AC            [24]  798 	pop	_SFRPI 
-      0003E7 C0 AC            [24]  799 	push	_SFRPI 
-      0003E9 75 AC 02         [24]  800 	mov	_SFRPI,#0x02
-      0003EC 43 B4 40         [24]  801 	orl	_PDRVC0,#0x40
-      0003EF D0 AC            [24]  802 	pop	_SFRPI 
-      0003F1 C0 AC            [24]  803 	push	_SFRPI 
-      0003F3 75 AC 02         [24]  804 	mov	_SFRPI,#0x02
-      0003F6 43 B4 80         [24]  805 	orl	_PDRVC0,#0x80
-      0003F9 D0 AC            [24]  806 	pop	_SFRPI 
-      0003FB C0 AC            [24]  807 	push	_SFRPI 
-      0003FD 75 AC 03         [24]  808 	mov	_SFRPI,#0x03
-      000400 43 B4 02         [24]  809 	orl	_PDRVC1,#0x02
-      000403 D0 AC            [24]  810 	pop	_SFRPI 
-      000405 C0 AC            [24]  811 	push	_SFRPI 
-      000407 75 AC 08         [24]  812 	mov	_SFRPI,#0x08
-      00040A 85 92 92         [24]  813 	mov	_P1FDC,_P1FDC
-      00040D D0 AC            [24]  814 	pop	_SFRPI 
-      00040F C0 AC            [24]  815 	push	_SFRPI 
-      000411 75 AC 09         [24]  816 	mov	_SFRPI,#0x09
-      000414 85 92 92         [24]  817 	mov	_P2FDC,_P2FDC
-      000417 D0 AC            [24]  818 	pop	_SFRPI 
-      000419 C0 AC            [24]  819 	push	_SFRPI 
-      00041B 75 AC 07         [24]  820 	mov	_SFRPI,#0x07
-      00041E 85 92 92         [24]  821 	mov	_P3FDC,_P3FDC
-      000421 D0 AC            [24]  822 	pop	_SFRPI 
-      000423 C0 AC            [24]  823 	push	_SFRPI 
-      000425 75 AC 0A         [24]  824 	mov	_SFRPI,#0x0a
-      000428 85 92 92         [24]  825 	mov	_P4FDC,_P4FDC
-      00042B D0 AC            [24]  826 	pop	_SFRPI 
+      00031E 75 82 48         [24]  729 	mov	dpl,#0x48
+      000321 12 03 01         [24]  730 	lcall	_DRV_PageP_Read
+      000324 E5 82            [12]  731 	mov	a,dpl
+      000326 54 DF            [12]  732 	anl	a,#0xdf
+      000328 F5 3B            [12]  733 	mov	_DRV_PageP_Write_PARM_2,a
+      00032A 75 82 48         [24]  734 	mov	dpl,#0x48
+      00032D 12 02 E4         [24]  735 	lcall	_DRV_PageP_Write
+      000330 75 82 48         [24]  736 	mov	dpl,#0x48
+      000333 12 03 01         [24]  737 	lcall	_DRV_PageP_Read
+      000336 E5 82            [12]  738 	mov	a,dpl
+      000338 54 BF            [12]  739 	anl	a,#0xbf
+      00033A F5 3B            [12]  740 	mov	_DRV_PageP_Write_PARM_2,a
+      00033C 75 82 48         [24]  741 	mov	dpl,#0x48
+      00033F 12 02 E4         [24]  742 	lcall	_DRV_PageP_Write
+      000342 75 82 4C         [24]  743 	mov	dpl,#0x4c
+      000345 12 03 01         [24]  744 	lcall	_DRV_PageP_Read
+      000348 75 82 4C         [24]  745 	mov	dpl,#0x4c
+      00034B 12 03 01         [24]  746 	lcall	_DRV_PageP_Read
+      00034E C0 AC            [24]  747 	push	_SFRPI 
+      000350 75 AC 00         [24]  748 	mov	_SFRPI,#0x00
+      000353 53 95 EB         [24]  749 	anl	_P2M0,#0xeb
+      000356 85 95 95         [24]  750 	mov	_P2M0,_P2M0
+      000359 75 AC 01         [24]  751 	mov	_SFRPI,#0x01
+      00035C 53 92 EB         [24]  752 	anl	_P2M1,#0xeb
+      00035F 43 92 14         [24]  753 	orl	_P2M1,#0x14
+      000362 D0 AC            [24]  754 	pop	_SFRPI 
+      000364 C0 AC            [24]  755 	push	_SFRPI 
+      000366 75 AC 00         [24]  756 	mov	_SFRPI,#0x00
+      000369 53 95 EB         [24]  757 	anl	_P2M0,#0xeb
+      00036C 85 95 95         [24]  758 	mov	_P2M0,_P2M0
+      00036F 75 AC 01         [24]  759 	mov	_SFRPI,#0x01
+      000372 53 92 EB         [24]  760 	anl	_P2M1,#0xeb
+      000375 43 92 14         [24]  761 	orl	_P2M1,#0x14
+      000378 D0 AC            [24]  762 	pop	_SFRPI 
+      00037A 53 B1 FC         [24]  763 	anl	_P3M0,#0xfc
+      00037D 85 B1 B1         [24]  764 	mov	_P3M0,_P3M0
+      000380 53 B2 FC         [24]  765 	anl	_P3M1,#0xfc
+      000383 43 B2 38         [24]  766 	orl	_P3M1,#0x38
+      000386 C0 AC            [24]  767 	push	_SFRPI 
+      000388 75 AC 00         [24]  768 	mov	_SFRPI,#0x00
+      00038B 85 B3 B3         [24]  769 	mov	_P4M0,_P4M0
+      00038E 85 B3 B3         [24]  770 	mov	_P4M0,_P4M0
+      000391 75 AC 02         [24]  771 	mov	_SFRPI,#0x02
+      000394 85 92 92         [24]  772 	mov	_P4M1,_P4M1
+      000397 43 92 01         [24]  773 	orl	_P4M1,#0x01
+      00039A D0 AC            [24]  774 	pop	_SFRPI 
+      00039C C0 AC            [24]  775 	push	_SFRPI 
+      00039E 75 AC 01         [24]  776 	mov	_SFRPI,#0x01
+      0003A1 53 B5 FC         [24]  777 	anl	_P6M0,#0xfc
+      0003A4 85 B5 B5         [24]  778 	mov	_P6M0,_P6M0
+      0003A7 75 AC 03         [24]  779 	mov	_SFRPI,#0x03
+      0003AA 53 92 FC         [24]  780 	anl	_P6M1,#0xfc
+      0003AD 43 92 03         [24]  781 	orl	_P6M1,#0x03
+      0003B0 D0 AC            [24]  782 	pop	_SFRPI 
+      0003B2 C0 AC            [24]  783 	push	_SFRPI 
+      0003B4 75 AC 02         [24]  784 	mov	_SFRPI,#0x02
+      0003B7 43 B4 04         [24]  785 	orl	_PDRVC0,#0x04
+      0003BA D0 AC            [24]  786 	pop	_SFRPI 
+      0003BC C0 AC            [24]  787 	push	_SFRPI 
+      0003BE 75 AC 02         [24]  788 	mov	_SFRPI,#0x02
+      0003C1 43 B4 08         [24]  789 	orl	_PDRVC0,#0x08
+      0003C4 D0 AC            [24]  790 	pop	_SFRPI 
+      0003C6 C0 AC            [24]  791 	push	_SFRPI 
+      0003C8 75 AC 02         [24]  792 	mov	_SFRPI,#0x02
+      0003CB 43 B4 10         [24]  793 	orl	_PDRVC0,#0x10
+      0003CE D0 AC            [24]  794 	pop	_SFRPI 
+      0003D0 C0 AC            [24]  795 	push	_SFRPI 
+      0003D2 75 AC 02         [24]  796 	mov	_SFRPI,#0x02
+      0003D5 43 B4 20         [24]  797 	orl	_PDRVC0,#0x20
+      0003D8 D0 AC            [24]  798 	pop	_SFRPI 
+      0003DA C0 AC            [24]  799 	push	_SFRPI 
+      0003DC 75 AC 02         [24]  800 	mov	_SFRPI,#0x02
+      0003DF 43 B4 40         [24]  801 	orl	_PDRVC0,#0x40
+      0003E2 D0 AC            [24]  802 	pop	_SFRPI 
+      0003E4 C0 AC            [24]  803 	push	_SFRPI 
+      0003E6 75 AC 02         [24]  804 	mov	_SFRPI,#0x02
+      0003E9 43 B4 80         [24]  805 	orl	_PDRVC0,#0x80
+      0003EC D0 AC            [24]  806 	pop	_SFRPI 
+      0003EE C0 AC            [24]  807 	push	_SFRPI 
+      0003F0 75 AC 03         [24]  808 	mov	_SFRPI,#0x03
+      0003F3 43 B4 02         [24]  809 	orl	_PDRVC1,#0x02
+      0003F6 D0 AC            [24]  810 	pop	_SFRPI 
+      0003F8 C0 AC            [24]  811 	push	_SFRPI 
+      0003FA 75 AC 08         [24]  812 	mov	_SFRPI,#0x08
+      0003FD 85 92 92         [24]  813 	mov	_P1FDC,_P1FDC
+      000400 D0 AC            [24]  814 	pop	_SFRPI 
+      000402 C0 AC            [24]  815 	push	_SFRPI 
+      000404 75 AC 09         [24]  816 	mov	_SFRPI,#0x09
+      000407 85 92 92         [24]  817 	mov	_P2FDC,_P2FDC
+      00040A D0 AC            [24]  818 	pop	_SFRPI 
+      00040C C0 AC            [24]  819 	push	_SFRPI 
+      00040E 75 AC 07         [24]  820 	mov	_SFRPI,#0x07
+      000411 85 92 92         [24]  821 	mov	_P3FDC,_P3FDC
+      000414 D0 AC            [24]  822 	pop	_SFRPI 
+      000416 C0 AC            [24]  823 	push	_SFRPI 
+      000418 75 AC 0A         [24]  824 	mov	_SFRPI,#0x0a
+      00041B 85 92 92         [24]  825 	mov	_P4FDC,_P4FDC
+      00041E D0 AC            [24]  826 	pop	_SFRPI 
                                     827 ;	driver/source/MG82F6D17_WIZARD.c:142: }
-      00042D 22               [24]  828 	ret
+      000420 22               [24]  828 	ret
                                     829 	.area CSEG    (CODE)
                                     830 	.area CONST   (CODE)
                                     831 	.area XINIT   (CODE)

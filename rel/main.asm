@@ -756,7 +756,7 @@ __interrupt_vect:
 	.globl __mcs51_genRAMCLEAR
 ;	main.c:49: machine_state mstate = OFF;
 	mov	_mstate,#0x01
-;	main.c:51: button_tells action = TOGGLE_OFF;
+;	main.c:51: volatile button_tells action = TOGGLE_OFF;
 	mov	_action,#0x01
 ;	main.c:53: unsigned int hold_count = 0;
 	clr	a
@@ -825,54 +825,51 @@ _main:
 	mov	r7,#0x00
 ;	main.c:77: while (1) {
 00136$:
-;	main.c:78: switch(action){
-	clr	a
-	cjne	a,_action,00228$
+;	main.c:79: switch(action){
+	mov	r5,_action
+	cjne	r5,#0x00,00228$
 	sjmp	00105$
 00228$:
-	mov	a,#0x01
-	cjne	a,_action,00229$
+	cjne	r5,#0x01,00229$
 	sjmp	00101$
 00229$:
-	mov	a,#0x03
-	cjne	a,_action,00230$
+	cjne	r5,#0x03,00230$
 	sjmp	00116$
 00230$:
-	mov	a,#0x04
-	cjne	a,_action,00231$
+	cjne	r5,#0x04,00231$
 	ljmp	00122$
 00231$:
 	ljmp	00133$
-;	main.c:80: case TOGGLE_OFF:
+;	main.c:81: case TOGGLE_OFF:
 00101$:
-;	main.c:82: CR = 0x0; //turn off the PWM
+;	main.c:83: CR = 0x0; //turn off the PWM
 ;	assignBit
 	clr	_CR
-;	main.c:83: LED = 0x0; //turn off the LED
+;	main.c:84: LED = 0x0; //turn off the LED
 ;	assignBit
 	clr	_P33
-;	main.c:85: mstate = OFF;
+;	main.c:86: mstate = OFF;
 	mov	_mstate,#0x01
-;	main.c:86: while(action == DO_NOTHING){
+;	main.c:87: while(action == DO_NOTHING){
 00102$:
 	mov	a,#0x02
 	cjne	a,_action,00136$
-;	main.c:91: case TOGGLE_ON:
+;	main.c:93: case TOGGLE_ON:
 	sjmp	00102$
 00105$:
-;	main.c:92: CR = 0x1; // Turn on the PWM
+;	main.c:94: CR = 0x1; // Turn on the PWM
 ;	assignBit
 	setb	_CR
-;	main.c:93: LED = 0x1; // Turn on LED
+;	main.c:95: LED = 0x1; // Turn on LED
 ;	assignBit
 	setb	_P33
-;	main.c:95: mstate = ON;
+;	main.c:97: mstate = ON;
 	mov	_mstate,#0x00
-;	main.c:96: while(action == DO_NOTHING){
+;	main.c:98: while(action == DO_NOTHING){
 00113$:
 	mov	a,#0x02
 	cjne	a,_action,00136$
-;	main.c:98: if(FEEDBACK && current_duty > 0) current_duty--;
+;	main.c:100: if(FEEDBACK && current_duty > 0) current_duty--;
 	jnb	_P10,00110$
 	mov	a,r6
 	orl	a,r7
@@ -883,7 +880,7 @@ _main:
 00238$:
 	sjmp	00111$
 00110$:
-;	main.c:100: else if (!FEEDBACK && current_duty < 100) current_duty++;
+;	main.c:102: else if (!FEEDBACK && current_duty < 100) current_duty++;
 	jb	_P10,00111$
 	clr	c
 	mov	a,r6
@@ -896,7 +893,7 @@ _main:
 	inc	r7
 00241$:
 00111$:
-;	main.c:102: set_duty(current_duty);
+;	main.c:104: set_duty(current_duty);
 	mov	dpl,r6
 	mov	dph,r7
 	push	ar7
@@ -904,24 +901,20 @@ _main:
 	lcall	_set_duty
 	pop	ar6
 	pop	ar7
-;	main.c:107: case DUTY_HALF:
+;	main.c:109: case DUTY_HALF:
 	sjmp	00113$
 00116$:
-;	main.c:108: current_duty = 50;
+;	main.c:110: current_duty = 50;
 	mov	r6,#0x32
 	mov	r7,#0x00
-;	main.c:109: mstate = ON;
+;	main.c:111: mstate = ON;
 ;	1-genFromRTrack replaced	mov	_mstate,#0x00
 	mov	_mstate,r7
-;	main.c:110: while(action == DO_NOTHING){
+;	main.c:112: while(action == DO_NOTHING){
 00119$:
 	mov	a,#0x02
-	cjne	a,_action,00242$
-	sjmp	00243$
-00242$:
-	ljmp	00136$
-00243$:
-;	main.c:112: if(run_duty!=50) run_duty = set_duty(current_duty);
+	cjne	a,_action,00136$
+;	main.c:114: if(run_duty!=50) run_duty = set_duty(current_duty); 
 	mov	a,#0x32
 	cjne	a,_run_duty,00244$
 	clr	a
@@ -1093,67 +1086,65 @@ _gpio_init:
 	orl	_P2M0,#0x04
 ;	main.c:180: P2M1 &= ~(1<<2); 
 	anl	_P2M1,#0xfb
-;	main.c:183: P1M0 |= (1<<6);
-	orl	_P1M0,#0x40
-;	main.c:184: P1M1 &= ~(1<<6);
-	anl	_P1M1,#0xbf
-;	main.c:187: P1M1 &= ~(1<<7); 
-	anl	_P1M1,#0x7f
-;	main.c:190: P2M1 &= ~(1<<4);
-	anl	_P2M1,#0xef
-;	main.c:191: }
+;	main.c:185: P3M1 |= (1<<3);
+	orl	_P3M1,#0x08
+;	main.c:188: P6M1 &= ~(1<<0); 
+	anl	_P6M1,#0xfe
+;	main.c:192: P1M1 &= ~(1<<0);
+	anl	_P1M1,#0xfe
+;	main.c:193: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'timer1_init'
 ;------------------------------------------------------------
-;	main.c:193: void timer1_init(void){
+;	main.c:195: void timer1_init(void){
 ;	-----------------------------------------
 ;	 function timer1_init
 ;	-----------------------------------------
 _timer1_init:
-;	main.c:196: TMOD |= (5<<4); // enable the timer1 as 16 bit timer without auto reloaad the 5 or 101 is for prescaler 48 along with AUXR2
+;	main.c:198: TMOD |= (5<<4); // enable the timer1 as 16 bit timer without auto reloaad the 5 or 101 is for prescaler 48 along with AUXR2
 	orl	_TMOD,#0x50
-;	main.c:197: AUXR2 |=(1<<3); // to set the timer clock as sysclock/48
+;	main.c:199: AUXR2 |=(1<<3); // to set the timer clock as sysclock/48
 	orl	_AUXR2,#0x08
-;	main.c:198: EA = 1; // enable global interrupts
+;	main.c:200: EA = 1; // enable global interrupts
 ;	assignBit
 	setb	_EA
-;	main.c:199: ET1 = 1; // enable timer1 interrupts
+;	main.c:201: ET1 = 1; // enable timer1 interrupts
 ;	assignBit
 	setb	_ET1
-;	main.c:200: TL1 = 0x2C;
+;	main.c:202: TL1 = 0x2C;
 	mov	_TL1,#0x2c
-;	main.c:201: TH1 = 0xCF;
+;	main.c:203: TH1 = 0xCF;
 	mov	_TH1,#0xcf
-;	main.c:202: TR1 = 1; // turn on the timer1
+;	main.c:204: TR1 = 1; // turn on the timer1
 ;	assignBit
 	setb	_TR1
-;	main.c:203: }
+;	main.c:205: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'timer1_ISR'
 ;------------------------------------------------------------
-;	main.c:205: void timer1_ISR(void) __interrupt(3){
+;	main.c:207: void timer1_ISR(void) __interrupt(3){
 ;	-----------------------------------------
 ;	 function timer1_ISR
 ;	-----------------------------------------
 _timer1_ISR:
 	push	acc
 	push	psw
-;	main.c:206: TF1 = 0;          // Clear overflow flag
+;	main.c:208: TF1 = 0;          // Clear overflow flag
 ;	assignBit
 	clr	_TF1
-;	main.c:207: TH1 = 0xCF;       // Reload timer for next 50ms
+;	main.c:209: TH1 = 0xCF;       // Reload timer for next 50ms
 	mov	_TH1,#0xcf
-;	main.c:208: TL1 = 0x2C;
+;	main.c:210: TL1 = 0x2C;
 	mov	_TL1,#0x2c
-;	main.c:209: timer_count++;
+;	main.c:211: timer_count++;
 	inc	_timer_count
 	clr	a
 	cjne	a,_timer_count,00190$
 	inc	(_timer_count + 1)
 00190$:
-;	main.c:210: if (action == DUTY_HALF && timer_count == 20) LED = !LED;
+;	main.c:212: if (action == DUTY_HALF && timer_count == 20) LED = !LED; // just to toggle the led as an indicator for half_duty
 	mov	a,#0x03
 	cjne	a,_action,00102$
 	mov	a,#0x14
@@ -1166,59 +1157,59 @@ _timer1_ISR:
 00194$:
 	cpl	_P33
 00102$:
-;	main.c:211: __bit button = BUTTON;
+;	main.c:213: __bit button = BUTTON;
 ;	assignBit
 	mov	c,_P60
-;	main.c:212: if(button == last_debounced){
+;	main.c:215: if(button == last_debounced){
 	mov  _timer1_ISR_button_65537_52,c
 	jb	_last_debounced,00195$
 	cpl	c
 00195$:
 	jnc	00105$
-;	main.c:213: debounce_counter++; 
+;	main.c:216: debounce_counter++; 
 	inc	_debounce_counter
 	sjmp	00106$
 00105$:
-;	main.c:216: debounce_counter = 0;
+;	main.c:219: debounce_counter = 0;
 	mov	_debounce_counter,#0x00
 00106$:
-;	main.c:218: if(debounce_counter >= DEBOUNCE_COUNT_THRESHOLD){
+;	main.c:223: if(debounce_counter >= DEBOUNCE_COUNT_THRESHOLD){
 	mov	a,#0x100 - 0x02
 	add	a,_debounce_counter
 	jnc	00108$
-;	main.c:219: debounced = button;
+;	main.c:224: debounced = button;
 ;	assignBit
 	mov	c,_timer1_ISR_button_65537_52
 	mov	_debounced,c
 00108$:
-;	main.c:222: if(debounced == 0 && last_debounced == debounced){
+;	main.c:227: if(debounced == 0 && last_debounced == debounced){
 	jb	_debounced,00112$
 	mov	c,_last_debounced
 	jb	_debounced,00199$
 	cpl	c
 00199$:
 	jnc	00112$
-;	main.c:223: hold_count++;
+;	main.c:228: hold_count++;
 	inc	_hold_count
 	clr	a
 	cjne	a,_hold_count,00113$
 	inc	(_hold_count + 1)
 	sjmp	00113$
 00112$:
-;	main.c:225: else if (last_debounced != debounced){
+;	main.c:231: else if (last_debounced != debounced){
 	mov	c,_last_debounced
 	jb	_debounced,00202$
 	cpl	c
 00202$:
 	jc	00113$
-;	main.c:226: toggle_count++;
+;	main.c:232: toggle_count++;
 	inc	_toggle_count
 	clr	a
 	cjne	a,_toggle_count,00204$
 	inc	(_toggle_count + 1)
 00204$:
 00113$:
-;	main.c:228: if(timer_count == 40){
+;	main.c:235: if(timer_count == 40){
 	mov	a,#0x28
 	cjne	a,_timer_count,00205$
 	clr	a
@@ -1227,24 +1218,24 @@ _timer1_ISR:
 00205$:
 	sjmp	00131$
 00206$:
-;	main.c:230: if(hold_count >= 20){
+;	main.c:237: if(hold_count >= 20){
 	clr	c
 	mov	a,_hold_count
 	subb	a,#0x14
 	mov	a,(_hold_count + 1)
 	subb	a,#0x00
 	jc	00128$
-;	main.c:231: if(mstate == ON) action = TOGGLE_OFF;
+;	main.c:238: if(mstate == ON) action = TOGGLE_OFF;
 	mov	a,_mstate
 	jnz	00116$
 	mov	_action,#0x01
 	sjmp	00129$
 00116$:
-;	main.c:232: else action = TOGGLE_ON;
+;	main.c:239: else action = TOGGLE_ON;
 	mov	_action,#0x00
 	sjmp	00129$
 00128$:
-;	main.c:235: else if(toggle_count>=2 && toggle_count<=4){
+;	main.c:242: else if(toggle_count>=2 && toggle_count<=4){
 	clr	c
 	mov	a,_toggle_count
 	subb	a,#0x02
@@ -1256,47 +1247,47 @@ _timer1_ISR:
 	clr	a
 	subb	a,(_toggle_count + 1)
 	jc	00124$
-;	main.c:236: action = DUTY_HALF;
+;	main.c:243: action = DUTY_HALF;
 	mov	_action,#0x03
 	sjmp	00129$
 00124$:
-;	main.c:238: else if(toggle_count>=4){
+;	main.c:246: else if(toggle_count>=4){
 	clr	c
 	mov	a,_toggle_count
 	subb	a,#0x04
 	mov	a,(_toggle_count + 1)
 	subb	a,#0x00
 	jc	00121$
-;	main.c:239: action = TRACK_OUT;
+;	main.c:247: action = TRACK_OUT;
 	mov	_action,#0x04
 	sjmp	00129$
 00121$:
-;	main.c:241: else if (hold_count<20){
+;	main.c:249: else if (hold_count<20){
 	clr	c
 	mov	a,_hold_count
 	subb	a,#0x14
 	mov	a,(_hold_count + 1)
 	subb	a,#0x00
 	jnc	00129$
-;	main.c:242: action = DO_NOTHING;
+;	main.c:250: action = DO_NOTHING;
 	mov	_action,#0x02
 00129$:
-;	main.c:245: timer_count = 0;
+;	main.c:253: timer_count = 0;
 	clr	a
 	mov	_timer_count,a
 	mov	(_timer_count + 1),a
-;	main.c:246: toggle_count = 0;
+;	main.c:254: toggle_count = 0;
 	mov	_toggle_count,a
 	mov	(_toggle_count + 1),a
-;	main.c:247: hold_count = 0;
+;	main.c:255: hold_count = 0;
 	mov	_hold_count,a
 	mov	(_hold_count + 1),a
 00131$:
-;	main.c:249: last_debounced = debounced;
+;	main.c:257: last_debounced = debounced;
 ;	assignBit
 	mov	c,_debounced
 	mov	_last_debounced,c
-;	main.c:250: } 
+;	main.c:258: } 
 	pop	psw
 	pop	acc
 	reti

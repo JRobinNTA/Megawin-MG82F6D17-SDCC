@@ -48,7 +48,7 @@ typedef enum {
 // current machine_state;
 machine_state mstate = OFF;
 // current action 
-button_tells action = TOGGLE_OFF;
+volatile button_tells action = TOGGLE_OFF;
 // count for which the button is pressed and held in 2 seconds or 40 polls
 unsigned int hold_count = 0;
 // count for the current timer cycle out of 40 cycles
@@ -75,6 +75,7 @@ void main(void) {
     // The Switch states has to be checked each time before running
     unsigned int current_duty = 50; //Set initial duty as 50% 
     while (1) {
+        // Have to add a timer1 based delay according to the switching delay of the feedback 
         switch(action){
             // Turn off
             case TOGGLE_OFF:
@@ -88,6 +89,7 @@ void main(void) {
                 }
             break;
             // Turn on
+            // Place holder code to be rewritten to track and settle at a certain output
             case TOGGLE_ON:
                 CR = 0x1; // Turn on the PWM
                 LED = 0x1; // Turn on LED
@@ -109,9 +111,7 @@ void main(void) {
                 mstate = ON;
                 while(action == DO_NOTHING){
                     // LED = 0x1; moved the led logic to timer1 interrupt
-                    if(run_duty!=50) run_duty = set_duty(current_duty);
-                    
-                    // Have to add an arbitrary delay here but that could slow down the button toggle
+                    if(run_duty!=50) run_duty = set_duty(current_duty); 
                 }
             break;
             // Track the feedback
@@ -178,16 +178,18 @@ void gpio_init(void){
     // Setting the PWM_OUTPUT as push pull output
     P2M0 |= (1<<2);
     P2M1 &= ~(1<<2); 
-
-    // Setting the LED_PIN as output
-    P1M0 |= (1<<6);
-    P1M1 &= ~(1<<6);
     
-    // Setting the SWITCH_PIN as input the reset val of P1M0 is 0 so not toucing it
-    P1M1 &= ~(1<<7); 
+    // Dont think its necessary as the LED can operate in the default quasi bidirectional mode
+    // Setting the LED_PIN as push pull output
+    // P3M0 &= (1<<3); // default value of P3M0 is 0
+    P3M1 |= (1<<3);
+    
+    // Setting the SWITCH_PIN as input the reset val of P6M0 is 0 so not toucing it
+    P6M1 &= ~(1<<0); 
 
-    // Setting the FEEDBACK_PIN as digital input the reset val of P2M0 is same here
-    P2M1 &= ~(1<<4);
+    // Setting the FEEDBACK_PIN as digital input the reset val of P1M0 is same here
+    // port pin has to be set as one for general input since the reset value of port pin is one dont touch it
+    P1M1 &= ~(1<<0);
 }
 
 void timer1_init(void){
@@ -207,24 +209,29 @@ void timer1_ISR(void) __interrupt(3){
     TH1 = 0xCF;       // Reload timer for next 50ms
     TL1 = 0x2C;
     timer_count++;
-    if (action == DUTY_HALF && timer_count == 20) LED = !LED;
+    if (action == DUTY_HALF && timer_count == 20) LED = !LED; // just to toggle the led as an indicator for half_duty
     __bit button = BUTTON;
+    // simple count based debounce
     if(button == last_debounced){
         debounce_counter++; 
     }
     else{
         debounce_counter = 0;
     }
+
+    // check if button is debounced if it is save it
     if(debounce_counter >= DEBOUNCE_COUNT_THRESHOLD){
         debounced = button;
     }
-
+    // check if the button is being held
     if(debounced == 0 && last_debounced == debounced){
         hold_count++;
     }
+    // check if the button is being toggled
     else if (last_debounced != debounced){
         toggle_count++;
     }
+    // if the timer runs for 2 secondss or 40 counts of 50ms
     if(timer_count == 40){
         // Toggle the maachine
         if(hold_count >= 20){
@@ -235,6 +242,7 @@ void timer1_ISR(void) __interrupt(3){
         else if(toggle_count>=2 && toggle_count<=4){
             action = DUTY_HALF;
         }
+        // track the output
         else if(toggle_count>=4){
             action = TRACK_OUT;
         }

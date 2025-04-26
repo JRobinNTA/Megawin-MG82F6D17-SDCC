@@ -551,17 +551,17 @@ Symbol Table
   5 _action                                                        000001 GR
   5 _debounce_counter                                              00000A GR
   9 _debounced                                                     000000 GR
- 17 _gpio_init                                                     000156 GR
+ 17 _gpio_init                                                     00014C GR
   5 _hold_count                                                    000002 GR
   9 _last_debounced                                                000001 GR
  17 _main                                                          000000 GR
   5 _mstate                                                        000000 GR
   5 _run_duty                                                      000008 GR
- 17 _set_duty                                                      000119 GR
- 17 _setup_pwm                                                     0000F1 GR
- 17 _timer1_ISR                                                    00017C GR
+ 17 _set_duty                                                      00010F GR
+ 17 _setup_pwm                                                     0000E7 GR
+ 17 _timer1_ISR                                                    00016F GR
   9 _timer1_ISR_button_65537_52                                    000002 R
- 17 _timer1_init                                                   000169 GR
+ 17 _timer1_init                                                   00015C GR
   5 _timer_count                                                   000004 GR
   5 _toggle_count                                                  000006 GR
     a                                                           =  0000E0 L
@@ -793,7 +793,7 @@ Area Table
   14 GSINIT5                                    size      0   flags   20
   15 GSINIT                                     size     1D   flags   20
   16 GSFINAL                                    size      3   flags   20
-  17 CSEG                                       size    257   flags   20
+  17 CSEG                                       size    24A   flags   20
   18 CONST                                      size      0   flags   20
   19 XINIT                                      size      0   flags   20
   1A CABS                                       size      0   flags   28

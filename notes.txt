@@ -40,9 +40,22 @@ PATN_SEL bit determines if the comparison is equal to or not equal to
 
 AHHHH the switch pin is p6.0 which has no keypad input ok so no button interrupt go for a different logic
 
-OK so now we are left with only the timer interrupt which i can use to poll the button every 10ms at every poll check for the button
-state if the button remains pressed after every 10ms
+OK so now we are left with only the timer interrupt which i can use to poll the button every 50ms at every poll check for the button
+state if the button remains pressed after every 50ms increase the hold count in a 40 timer count if the hold_count is 20 then the 
+button is held if the toggle_count is more than 4 then double press, less than 4 and greater than or equal to 2 single press
+The Debounce will be a simple counter based one not related to the delay a debounce is not required here as the polling time is too
+high for any kind of debounce to occure but as a contingency we will keep the count
 
 To write the interrupt for timer1:
 The interrupt number for timer1 is 3
 we will run timer1 in mod1
+
+Ok now the switch is done theres a 4ms(ideal delay) delay between the voltage attainment and 
+feedback shift so if i update the feedback in the current cycle i have to wait atleast 4ms to know the change and 
+then only update the feedback since the response time of feedback 4ms is from proteus I will add one more millisec delay 
+and round it off to 5ms 
+
+Now how can i implement this delay between reading the feedback pin and updating duty cycle???
+If possible I would really like to avoid another interrupt maybe an arbitrary delay using __nop?
+arbitrary delays are famously unreliable for precise tuning they wont do may be use the generated pwm to measure the time??
+50Khz frequency means 1/50Khz time period
